@@ -12,14 +12,13 @@
     font-weight: bold;
   }
 
-  @media (max-width: 767px) { 
+  @media (max-width: 767px) {
     .pisto{
       text-align: left;
       color: gray;
     }
 }
 </style>
-
 <br><br>
 
 <div class="container">
@@ -35,115 +34,52 @@
         <table id="example" class="table table-striped table-bordered table-hover table-responsive-sm table-responsive-md" style="width:100%">
         <thead>
             <tr>
-          <th scope="col">Nombre</th>
-                <th scope="col">Departamento</th>
-          <th scope="col">Marca</th>
-                <th scope="col">Modelo</th>
-          <th scope="col">Placa</th>
-          <th scope="col" style="text-align: center;">Área</th>
-          <th scope="col" style="text-align: center;">Correlativo</th>
+              <th scope="col">Cargo</th>
+              <th scope="col">Id empleado</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Nit</th>
+              <th scope="col" style="text-align: center;">Opciones</th>
             </tr>
         </thead>
         <tbody>
-          <?php  if(!empty($datos)):?>
-        <?php  foreach($datos as $xRenglon):?>
+          <?php  if(!empty($empleados)):?>
+        <?php  foreach($empleados as $xRenglon):?>
+            <?php //controla el estado de los botones
+            $classButton = "";
+            $classIcon = "";
+            $buttonsStatus = "";
+
+              if ($xRenglon->status == '1') {
+                $classIcon = 'class="fas fa-minus-circle"';
+                $classButton = 'class="btn btn-danger"';
+            }else {
+              $classIcon = 'class="fas fa-check"';
+              $classButton = 'class="btn btn-success"';
+              $buttonsStatus = 'disabled';
+            }//----------------------
+            ?>
               <tr>
-                  <td><?php echo $xRenglon->nombre?></td>
-                    <td scope="row"><?php echo $xRenglon->Expr1." ".$xRenglon->apellido; ?></td>
-                  <td><?php echo $xRenglon->marca; ?></td>
-                    <td><?php echo $xRenglon->modelo; ?></td>
+                <td><?php echo "Residentes ".$xRenglon->cargo; ?></td>
+                  <td><?php echo $xRenglon->id_Empleado?></td>
+                  <td><?php echo $xRenglon->nombre; ?></td>
+                  <td><?php echo $xRenglon->nit;?></td>
                   <td>
-                     <center>
-                         <?php echo $xRenglon->placa; ?>
-                     </center>   
-                    </td>
-                  <td>
-                    <?php 
-                        if ($xRenglon->area == 1) {
-                            ?>
-                            <center class="text-warning" style="font-weight: bold">
-                                <?php
-                                echo "Admon";
-                                ?>
-                            </center>
-                            <?php
-                        } else if ($xRenglon->area == 2) {
-                            ?>
-                            <center style="color: #ff00ff; font-weight: bold">
-                                <?php
-                                echo "Residente";
-                                ?>
-                            </center>
-                            <?php
-                        } else if ($xRenglon->area == 3) {
-                            ?>
-                            <center style="color: #cd853f; font-weight: bold">
-                                <?php
-                                echo "Interno";
-                                ?>
-                            </center>
-                            <?php
-                        } else if ($xRenglon->area == 4) {
-                            ?>
-                            <center style="color: #cd5c5c; font-weight: bold">
-                                <?php
-                                echo "Proveedor";
-                                ?>
-                            </center>
-                            <?php
-                        } else if ($xRenglon->area == 5) {
-                            ?>
-                            <center style="color: #00ff00; font-weight: bold">
-                                <?php
-                                echo "Operario";
-                                ?>
-                            </center>
-                            <?php
-                        } else if ($xRenglon->area == 6) {
-                            ?>
-                            <center style="color: #ffa500; font-weight: bold">
-                                <?php
-                                echo "Visita";
-                                ?>
-                            </center>
-                            <?php
-                        } else if ($xRenglon->area == 7) {
-                            ?>
-                            <center style="color: #ff0000; font-weight: bold">
-                                <?php
-                                echo "Enfermería";
-                                ?>
-                            </center>
-                            <?php
-                        } else if ($xRenglon->area == 8) {
-                            ?>
-                            <center style="color: #20b2aa; font-weight: bold">
-                                <?php
-                                echo "Médico";
-                                ?>
-                            </center>
-                            <?php
-                        }
-                    ?></td>
-                  <td>
-                     <center>
-                         <?php echo "#".$xRenglon->correlativo; ?>
-                     </center>   
-                    </td>
+                    <button type="button" <?=$buttonsStatus?> class="btn btn-primary"><i class="fas fa-print"></i></button>
+                    <button type="button"  <?=$buttonsStatus?> class="btn btn-success"><i class="fas fa-user-edit"></i></button>
+                    <button id="baja" type="button" onclick="DarBaja(<?php echo $xRenglon->id_Empleado.','.$xRenglon->status?>)" <?=$classButton?>>
+                      <i id="icon" <?=$classIcon?>></i>
+                    </button>
+                  </td>
               </tr>
-
-
-                
             <?php  endforeach;?>
         <?php  endif;?>
         </tbody>
       </table>
     </div>
+  </div>
+  </div>
 </div>
-</div>
-</div>
-            <br>
-       
+<br>
 </body>
 </html>
 
@@ -156,10 +92,10 @@ $(document).ready(function() {
     var table = $('#example').DataTable({
       "language": {
             "lengthMenu": "_MENU_",
-            "zeroRecords": "Ningún marbete",
+            "zeroRecords": "Ningún registro",
             "searchPlaceholder": "Buscar",
-            "info": "_TOTAL_ marbete(s)",
-            "infoEmpty": "Ningún marbete",
+            "info": "_TOTAL_ registro(s)",
+            "infoEmpty": "Ningun registro",
             "infoFiltered": "(Busqueda en _MAX_ registros)",
             "search": "",
             "paginate": {
@@ -178,13 +114,13 @@ $(document).ready(function() {
             var api = this.api();
             var rows = api.rows( {page:'current'} ).nodes();
             var last=null;
- 
+
             api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
                 if ( last !== group ) {
                     $(rows).eq( i ).before(
                         '<tr class="group" style="font-weight: bold;"><td colspan="6">'+group+'</td></tr>'
                     );
- 
+
                     last = group;
                 }
             } );
@@ -192,10 +128,10 @@ $(document).ready(function() {
     } );
 
 
- 
+
     // Order by the grouping
     $('#example tbody').on( 'click', 'tr.group', function () {
-        var currentOrder = table.order()[0];
+        var currentOrder = table.order()[3];
         if ( currentOrder[0] === groupColumn && currentOrder[1] === 'asc' ) {
             table.order( [ groupColumn, 'desc' ] ).draw();
         }
@@ -204,6 +140,33 @@ $(document).ready(function() {
         }
     } );
 } );
+
+  function classBtnEdit(){
+
+  }
+
+  var DarBaja = function(id_empleado,status) {
+//busca en la BD el estatus del empleado
+
+    var request = $.ajax({
+      method: "POST",
+      url: "<?=$base_url?>/Main/cambiarStatus",
+      data: {
+        id: id_empleado,
+        status: status
+      }
+    });
+    request.done(function(resultado) {
+        if (status == "1") {
+          swal.fire(resultado);
+          location.reload();
+        }else if (status == "0") {
+          swal.fire(resultado);
+          location.reload();
+        }
+    });
+  }
+
 </script>
 <br>
   </div>
