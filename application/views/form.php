@@ -1,12 +1,4 @@
-<br><br>
-<div class="container">
-
-  <div class="row">
-    <div class="col-md-12">
-      <h4 style="font-weight: bold">Impresión</h4>
-    </div>
-
-    <style type="text/css">
+<style type="text/css">
   .pisto {
     text-align: right;
     font-weight: bold;
@@ -19,7 +11,15 @@
     }
 }
 </style>
+
 <br><br>
+<div class="container">
+
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="font-weight: bold">Impresión</h4>
+      <hr class="my-4">
+    </div>
 
 <div class="container">
   <div class="row">
