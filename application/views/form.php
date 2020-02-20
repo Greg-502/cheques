@@ -30,56 +30,80 @@
 
   <div class="row">
     <div class="container box">
-    <div class="box-body">
-        <table id="example" class="table table-striped table-bordered table-hover table-responsive-sm table-responsive-md" style="width:100%">
-        <thead>
-            <tr>
-              <th scope="col">Cargo</th>
-              <th scope="col">Id empleado</th>
-              <th scope="col">Nombre</th>
-              <th scope="col">Nit</th>
-              <th scope="col" style="text-align: center;">Opciones</th>
-            </tr>
-        </thead>
-        <tbody>
-          <?php  if(!empty($empleados)):?>
-        <?php  foreach($empleados as $xRenglon):?>
-            <?php //controla el estado de los botones
-            $classButton = "";
-            $classIcon = "";
-            $buttonsStatus = "";
-
-              if ($xRenglon->status == '1') {
-                $classIcon = 'class="fas fa-minus-circle"';
-                $classButton = 'class="btn btn-danger"';
-            }else {
-              $classIcon = 'class="fas fa-check"';
-              $classButton = 'class="btn btn-success"';
-              $buttonsStatus = 'disabled';
-            }//----------------------
-            ?>
+      <div class="box-body">
+          <table id="example" class="table table-striped table-bordered table-hover table-responsive-sm table-responsive-md" style="width:100%">
+          <thead>
               <tr>
-                <td><?php echo "Residentes ".$xRenglon->cargo; ?></td>
-                  <td><?php echo $xRenglon->id_Empleado?></td>
-                  <td><?php echo $xRenglon->nombre; ?></td>
-                  <td><?php echo $xRenglon->nit;?></td>
-                  <td>
-                    <button type="button" <?=$buttonsStatus?> class="btn btn-primary"><i class="fas fa-print"></i></button>
-                    <button type="button"  <?=$buttonsStatus?> class="btn btn-success"><i class="fas fa-user-edit"></i></button>
-                    <button id="baja" type="button" onclick="DarBaja(<?php echo $xRenglon->id_Empleado.','.$xRenglon->status?>)" <?=$classButton?>>
-                      <i id="icon" <?=$classIcon?>></i>
-                    </button>
-                  </td>
+                <th scope="col">Cargo</th>
+                <th scope="col">Id empleado</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Nit</th>
+                <th scope="col" style="text-align: center;">Opciones</th>
               </tr>
-            <?php  endforeach;?>
-        <?php  endif;?>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            <?php  if(!empty($empleados)):?>
+          <?php  foreach($empleados as $xRenglon):?>
+              <?php //controla el estado de los botones
+              $classButton = "";
+              $classIcon = "";
+              $buttonsStatus = "";
+
+                if ($xRenglon->status == '1') {
+                  $classIcon = 'class="fas fa-minus-circle"';
+                  $classButton = 'class="btn btn-danger"';
+              }else {
+                $classIcon = 'class="fas fa-check"';
+                $classButton = 'class="btn btn-success"';
+                $buttonsStatus = 'disabled';
+              }//----------------------
+              ?>
+                <tr>
+                  <td><?php echo "Residentes ".$xRenglon->cargo; ?></td>
+                    <td><?php echo $xRenglon->id_Empleado?></td>
+                    <td><?php echo $xRenglon->nombre; $nombre = $xRenglon->nombre; ?></td>
+                    <td><?php echo $xRenglon->nit;?></td>
+                    <td>
+                      <button type="button" data-toggle="modal" data-target="#imprimir" data-whatever="@mdo" <?=$buttonsStatus?> class="btn btn-primary"><i class="fas fa-print"></i></button>
+                      <button type="button"  <?=$buttonsStatus?> class="btn btn-success"><i class="fas fa-user-edit"></i></button>
+                      <button id="baja" type="button" onclick="DarBaja(<?php echo $xRenglon->id_Empleado.','.$xRenglon->status?>)" <?=$classButton?>>
+                        <i id="icon" <?=$classIcon?>></i>
+                      </button>
+                    </td>
+                </tr>
+              <?php  endforeach;?>
+          <?php  endif;?>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
   </div>
 </div>
 <br>
+<!-- inicio del formulario emergente para iimprimir-->
+<div class="modal fade" id="imprimir" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Datos de la Impresión</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="recipient-name" class="col-form-label">Ingrese un nuevo color</label>
+          <input type="text" required class="form-control" id="nuevo_color" name="color" value="<?php $color ?>">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" style="color:white;">Cerrar</button>
+          <button  onclick="nuevoColor()" data-dismiss="modal" class="btn btn-primary" name="imprimir" value="Imprimir" style="color:white;">Imprimir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Fin ventana emergente-->
 </body>
 </html>
 
