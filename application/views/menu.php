@@ -32,10 +32,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body>
 
- <nav class="navbar navbar-light bg-light navbar-expand-lg col-md-12 fixed-top">
+ <nav class="navbar navbar-expand-lg navbar-light col-md-12 fixed-top" style="background-color: #e3f2fd;">
   <div class="container">
-  <a class="navbar-brand" style="font-weight: bold;" href="<?php echo base_url()?>">
-  <img style="height: 35px" src="<?php echo base_url();?>assets/image/footer.png"/></a>
+  <a class="navbar-brand" href="<?php echo base_url()?>">
+    <img style="height: 30px;" src="<?php echo base_url();?>assets/image/footer.png">
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="<?php echo base_url(); ?>Add">Añadir</a>
+        </li>
+      </ul>
+
+    </div>
   </div>
 </nav>
 <br>
