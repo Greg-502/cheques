@@ -1,9 +1,20 @@
 <style type="text/css">
+
+  .detail{
+    display: flex;
+    flex-direction: row;
+    height: 300px;
+    border-radius: 0px 0px 40px 40px;
+  }
+  .detail__container{
+    position: absolute;
+    width: 450px;
+    justify-content: space-between;
+  }
   .pisto {
     text-align: right;
     font-weight: bold;
   }
-
   @media (max-width: 767px) {
     .pisto{
       text-align: left;
@@ -14,7 +25,9 @@
 
 <br><br>
 <div class="container">
+  <div id="prueba" class="">
 
+  </div>
   <div class="row">
     <div class="col-md-12">
       <h4 style="font-weight: bold">Impresión</h4>
@@ -61,11 +74,11 @@
                 <tr>
                   <td><?php echo "Residentes ".$xRenglon->cargo; ?></td>
                     <td><?php echo $xRenglon->id_Empleado?></td>
-                    <td><?php echo $xRenglon->nombre; $nombre = $xRenglon->nombre; ?></td>
+                    <td><?php echo $xRenglon->nombre;?></td>
                     <td><?php echo $xRenglon->nit;?></td>
                     <td>
-                      <button type="button" data-toggle="modal" data-target="#imprimir" data-whatever="@mdo" <?=$buttonsStatus?> class="btn btn-primary"><i class="fas fa-print"></i></button>
-                      <button type="button"  <?=$buttonsStatus?> class="btn btn-success"><i class="fas fa-user-edit"></i></button>
+                      <button type="button" <?=$buttonsStatus?> onclick="datos_empleado('<?php echo $xRenglon->nombre?>',<?=$xRenglon->monto?>,'<?=$xRenglon->monto_letras?>')" data-toggle="modal" data-target="#imprimir" data-whatever="@mdo" class="btn btn-primary"><i class="fas fa-print"></i></button>
+                      <button type="button" <?=$buttonsStatus?> class="btn btn-success"><i class="fas fa-user-edit"></i></button>
                       <button id="baja" type="button" onclick="DarBaja(<?php echo $xRenglon->id_Empleado.','.$xRenglon->status?>)" <?=$classButton?>>
                         <i id="icon" <?=$classIcon?>></i>
                       </button>
@@ -91,13 +104,27 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="form-group">
-          <label for="recipient-name" class="col-form-label">Ingrese un nuevo color</label>
-          <input type="text" required class="form-control" id="nuevo_color" name="color" value="<?php $color ?>">
+        <div class="row">
+      			<div class="col-10">
+              <p id="fecha"></p>
+      			</div>
+      			<div class="col-2">
+              <p id="monto"></p>
+      			</div>
+      	</div>
+        <div class="row">
+          <div class="col-10">
+            <p><strong id="nombre"></strong></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-10">
+            <p id="monto_letras"></p>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal" style="color:white;">Cerrar</button>
-          <button  onclick="nuevoColor()" data-dismiss="modal" class="btn btn-primary" name="imprimir" value="Imprimir" style="color:white;">Imprimir</button>
+          <button  onclick="imprimir()" data-dismiss="modal" class="btn btn-primary" name="imprimir" value="Imprimir" style="color:white;">Imprimir</button>
         </div>
       </div>
     </div>
@@ -111,6 +138,8 @@
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 
 <script>
+var glob_nombre,glob_monto,glob_monto_Q, glob_fecha;//variables globales con datos del empleado
+
 $(document).ready(function() {
     var groupColumn = 0;
     var table = $('#example').DataTable({
@@ -151,8 +180,6 @@ $(document).ready(function() {
         }
     } );
 
-
-
     // Order by the grouping
     $('#example tbody').on( 'click', 'tr.group', function () {
         var currentOrder = table.order()[3];
@@ -165,10 +192,7 @@ $(document).ready(function() {
     } );
 } );
 
-  function classBtnEdit(){
-
-  }
-
+//funcion dar de baja------------------------
   var DarBaja = function(id_empleado,status) {
 //busca en la BD el estatus del empleado
 
@@ -190,7 +214,41 @@ $(document).ready(function() {
         }
     });
   }
+//funcion datos empleado----------------------------
+function datos_empleado(nombre,monto,montoEnLetras){
+  var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+  var f=new Date();
+  var fecha = f.getDate() + " de " + meses[f.getMonth()] + f.getFullYear();
 
+  glob_nombre = nombre;
+  glob_monto = monto;
+  glob_monto_Q = montoEnLetras;
+  glob_fecha = fecha;
+
+  $(function(){
+    $("#fecha").text('Quetzaltenango, '+ fecha+ '.----');
+    $("#monto").text('Q.'+monto);
+    $("#nombre").text(nombre);
+    $("#monto_letras").text(montoEnLetras);
+  });
+}
+//function imprimir------------------------------
+function imprimir(){
+    var fecha = '<div style="float:left;margin-bottom: 8px;margin-right: 120px;">Quetzaltenango, '+ glob_fecha +'.----</div>';
+    var monto = '<div style="margin-bottom: 8px;">'+glob_monto+'</div>'
+    var nombre = '<div style="margin-bottom: 8px;"><b>'+glob_nombre+'</b></div>';
+    var monto_letras = '<div style="margin-bottom: 8px;">'+glob_monto_Q+'</div>';
+
+    var pw = window.open('', '', 'height=400,width=800');
+    pw.document.write('<head style="@page: size: auto;margin:0mm;"></head><body style="margin-left: 150px;margin-top: 50px;">');
+    pw.document.write(fecha);
+    pw.document.write(monto);
+    pw.document.write(nombre);
+    pw.document.write(monto_letras);
+    pw.document.write('</body>');
+    pw.print();
+    pw.close();
+}
 </script>
 <br>
   </div>

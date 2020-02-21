@@ -39,4 +39,27 @@ class Main extends CI_Controller {
 			echo "Se dió de alta exitosamente";
 		}
 	}
+
+	public function imprimir(){
+		$data['base_url'] = $this->config->item('base_url');
+
+		$prueba = $_POST['prueba'];
+		if ($handle = printer_open('\\\192.168.1.135\HP LaserJet Professional P1606dn')) {
+			printer_set_option($handle, PRINTER_MODE, 'RAW');
+			printer_start_doc($handle);
+			printer_start_page($handle);
+
+			$font = printer_create_font('Arial', 150, 80, 700, false, false, false, 0);
+			printer_select_font($handle, $font);
+			printer_draw_text($handle, $prueba, 150, 50);
+
+			printer_delete_font($font);
+			printer_end_page($handle);
+			printer_end_doc($handle);
+			printer_close($handle);
+			echo "impresion exitosa";
+		}else {
+			echo "no se pudo conectar a la impresora";
+		}
+	}
 }
