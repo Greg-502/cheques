@@ -39,4 +39,26 @@ class Main extends CI_Controller {
 			echo "Se dió de alta exitosamente";
 		}
 	}
+
+	public function errores(){
+		$year = gmdate('Y');
+		$dataY = array(
+			'anio' => $year
+		);
+		
+		$this->load->view('menu');
+		$this->load->view('error');
+		$this->load->view('footer', $dataY);
+	}
+
+	public function code_5(){
+		$year = gmdate('Y');
+		$dataY = array(
+			'anio' => $year
+		);
+		
+		$this->load->view('menu');
+		$this->load->view('code_5');
+		$this->load->view('footer', $dataY);
+	}
 }

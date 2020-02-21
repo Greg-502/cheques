@@ -17,9 +17,30 @@
 
   <div class="row">
     <div class="col-md-12">
+      <small>Cheques</small>
       <h4 style="font-weight: bold">Impresión</h4>
+    </div>
+
+    <div class="col-md-12">
+      <form method="POST" action="<?php echo base_url();?>XLote" autocomplete="off">
+      <div class="form-row">
+          <div class="col-2 mb-3">
+            <input class="form-control" type="number" min="1" placeholder="Desde" name="from" required>
+          </div>
+
+          <div class="col-2 mb-3">
+            <input class="form-control" type="number" min="1" placeholder="Hasta" name="to" required>
+          </div>
+          <div class="col-md-1 mb-3">
+            <button type="submit" class="btn btn-primary hvr-icon-fade">Imprimir</button>
+        </div>
+      </div>
+      
+  </form>
       <hr class="my-4">
     </div>
+</div>
+</div>
 
 <div class="container">
   <div class="row">
