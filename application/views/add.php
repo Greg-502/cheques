@@ -47,12 +47,10 @@
                   ?>
                  </select>
             </div>
-          
-            
-      </div>
-      <div class="row col-md-1 mb-3">
+          <div class="col-md-1 mb-3">
               <button type="submit" class="btn btn-primary hvr-icon-fade">Guardar</button>
-            </div>
+          </div>
+      </div>
 	</form>
 	<br>
 

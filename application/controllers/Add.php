@@ -7,6 +7,7 @@ class Add extends CI_Controller {
 		
 		$this->load->model("AddModel");
 		$this->load->model("MountModel");
+		$this->load->model("NitModel");
 	}
 
 	public function index()
@@ -39,19 +40,24 @@ class Add extends CI_Controller {
 
 	function residente(){
 		$status = 1;
-		$data = array(
-			'nombre' => $this->input->post("nombres"),
-			'cargo' => $this->input->post("cargo"),
-			'status' => $status,
-			'nit' => $this->input->post("nit"),
-			'id_monto' => $this->input->post("monto")
-		);
+		$nit = $this->input->post("nit");
 
-		if ($this->AddModel->insertResidente($data)) {
-			redirect(base_url());
-		} else {
+		if ($this->NitModel->searchNit($nit)) {
 			redirect(base_url()."Main/errores");
+		} else {
+			$data = array(
+				'nombre' => $this->input->post("nombres"),
+				'cargo' => $this->input->post("cargo"),
+				'status' => $status,
+				'nit' => $nit,
+				'id_monto' => $this->input->post("monto")
+			);
+
+			if ($this->AddModel->insertResidente($data)) {
+				redirect(base_url());
+			} else {
+				redirect(base_url()."Main/errores");
+			}
 		}
-		
 	}
 }
