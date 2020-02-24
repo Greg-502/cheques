@@ -8,10 +8,15 @@ class Empleado_model extends CI_Model{
 		$this->load->database();
 	}
 
-		function listar() {
-
+/*		function listar() {
 			$query = $this->db->get("empleado");
 			return $query->result();
+	}*/
+	function listar() {
+		$this->db->select('*');
+		$this->db->join('monto', 'monto.id_monto = empleado.id_monto');
+		$query = $this->db->get('empleado');
+		return $query->result();
 	}
 
 	function dar_baja($id) {
