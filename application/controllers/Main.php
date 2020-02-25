@@ -11,6 +11,7 @@ class Main extends CI_Controller {
 
 	public function index()
 	{
+		$this->load->model('MountModel');
 		$data['base_url'] = $this->config->item('base_url');
 
 		$year = gmdate('Y');
@@ -18,10 +19,10 @@ class Main extends CI_Controller {
 			'anio' => $year
 		);
 		$data['empleados'] = $this->empleado_model->listar();
-
+		$data2['montos'] = $this->MountModel->mounts();
 
 		$this->load->view('menu');
-		$this->load->view('form',$data);
+		$this->load->view('form',$data,$data2);
 		$this->load->view('footer', $dataY);
 	}
 

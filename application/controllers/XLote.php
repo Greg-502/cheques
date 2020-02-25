@@ -22,12 +22,25 @@ class XLote extends CI_Controller {
 			$maximo = $data['maximo']->maximum;
 
 			if (($to < $from) || ($to > $maximo)) {
-				redirect(base_url()."Main/code_5");
+				redirect(base_url()."Xlote/code_5");
 			} else {
 				echo "OK";
 			}
 		} else {
-			redirect(base_url()."Main/errores");
+			redirect(base_url()."Xlote/errores");
 		}
+	}
+
+	public function code_5()
+	{
+		$year = gmdate('Y');
+		$dataY = array(
+			'anio' => $year
+		);
+
+
+		$this->load->view('menu');
+		$this->load->view('code_5');
+		$this->load->view('footer', $dataY);
 	}
 }

@@ -22,7 +22,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
   <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/varios/index.css">
   <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/varios/animate.min.css">
-  <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/varios/hover.css">
   <link rel="shortcut icon" type="image/ico" href="<?php echo base_url(); ?>assets/image/gt.jpg"/>
 <!--glip icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">

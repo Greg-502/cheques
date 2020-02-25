@@ -41,4 +41,9 @@ class Empleado_model extends CI_Model{
 		$rows = $dbres->result_array();
 		return $rows[0]['status'];
 	}
+
+	function update_residente($id, $data) {
+		$this->db->where("id_Empleado", $id);
+		return $this->db->update("empleado", $data);
+	}
 }
