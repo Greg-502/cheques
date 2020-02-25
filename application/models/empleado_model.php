@@ -14,7 +14,7 @@ class Empleado_model extends CI_Model{
 	}*/
 	function listar() {
 		$this->db->select('*');
-		$this->db->join('monto', 'monto.id_monto = empleado.id_monto');
+		$this->db->join('cargo', 'cargo.id_cargo = empleado.id_cargo');
 		$query = $this->db->get('empleado');
 		return $query->result();
 	}

@@ -51,7 +51,7 @@
           <thead>
               <tr>
                 <th scope="col">Cargo</th>
-                <th scope="col">Id empleado</th>
+                <th scope="col">#Empleado</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Nit</th>
                 <th scope="col" style="text-align: center;">Opciones</th>
@@ -75,7 +75,7 @@
               }//----------------------
               ?>
                 <tr>
-                  <td><?php echo "Residentes ".$xRenglon->cargo; ?></td>
+                  <td><?php echo $xRenglon->cargo; ?></td>
                     <td><?php echo $xRenglon->id_Empleado?></td>
                     <td><?php echo $xRenglon->nombre;?></td>
                     <td><?php echo $xRenglon->nit;?></td>
