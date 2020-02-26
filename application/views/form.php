@@ -31,13 +31,13 @@
       <form method="POST" action="<?php echo base_url();?>XLote" autocomplete="off">
       <div class="form-row">
           <div class="col-md-2 mb-3">
-            <input class="form-control" type="number" min="1" placeholder="Desde" name="from" required minlength="5">
+            <input id="rangoDesde" onchange="rango()" class="form-control" type="number" min="1" placeholder="Desde" name="from" required minlength="5" value="1">
           </div>
 
           <div class="col-md-2 mb-3">
-            <input class="form-control" type="number" min="1" placeholder="Hasta" name="to" required minlength="5">
+            <input id="rangoHasta" class="form-control" type="number" min="1" max="10" name="to" required minlength="5" value="1">
           </div>
-        
+
         <div class="col-md-2">
           <button type="submit" class="btn btn-primary hvr-icon-fade">Imprimir</button>
         </div>
@@ -46,7 +46,7 @@
         <div class="col-md-12">
         <hr class="my-4">
       <h4 style="font-weight: bold;">Listado</h4>
-          
+
           <table id="example" class="table table-striped table-bordered table-hover table-responsive-sm table-responsive-md" style="width:100%">
           <thead>
               <tr>
@@ -80,7 +80,7 @@
                     <td><?php echo $xRenglon->nombre;?></td>
                     <td><?php echo $xRenglon->nit;?></td>
                     <td>
-                      <button type="button" <?=$buttonsStatus?> onclick="datos_empleado('<?php echo $xRenglon->nombre?>',<?=$xRenglon->monto?>,'<?=$xRenglon->monto_letras?>')" data-toggle="modal" data-target="#imprimir" data-whatever="@mdo" class="btn btn-primary"><i class="fas fa-print"></i></button>
+                      <button type="button" <?=$buttonsStatus?> onclick="datos_empleado('<?php echo $xRenglon->nombre?>',<?=$xRenglon->monto?>,'<?=$xRenglon->monto_letras?>',<?=$xRenglon->id_Empleado?>)" data-toggle="modal" data-target="#imprimir" data-whatever="@mdo" class="btn btn-primary"><i class="fas fa-print"></i></button>
                       <button type="button" <?=$buttonsStatus?> class="btn btn-success EditBTN"><i class="fas fa-user-edit"></i></button>
                       <button id="baja" type="button" onclick="DarBaja(<?php echo $xRenglon->id_Empleado.','.$xRenglon->status?>)" <?=$classButton?>>
                         <i id="icon" <?=$classIcon?>></i>
@@ -91,7 +91,7 @@
           <?php  endif;?>
           </tbody>
         </table>
-      
+
     </div>
     </div>
     </div>
@@ -150,7 +150,7 @@
         </button>
       </div>
       <div class="modal-body">
-        
+
         <form method="POST" action="<?php echo base_url();?>Edit/residente" autocomplete="off" id="formResidente">
         <div class="form-row">
           <div class="col-12 mb-3">
@@ -202,7 +202,7 @@
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 
 <script>
-var glob_nombre,glob_monto,glob_monto_Q, glob_fecha;//variables globales con datos del empleado
+var glob_nombre,glob_monto,glob_monto_Q, glob_fecha, glob_fecha_footer;//variables globales con datos del empleado
 
 $(document).ready(function() {
     var groupColumn = 0;
@@ -250,7 +250,7 @@ $(document).ready(function() {
       id = parseInt(fila.find('td:eq(0)').text());
       nombre = fila.find('td:eq(1)').text();
       nit = fila.find('td:eq(2)').text();
-      
+
       $("#idRe").val(id);
       $("#nombreRE").val(nombre);
       $("#nitRE").val(nit);
@@ -280,16 +280,18 @@ $(document).ready(function() {
         }
     });
   }
-//funcion datos empleado----------------------------
-function datos_empleado(nombre,monto,montoEnLetras){
+//funcion obtener datos del empleado----------------------------
+function datos_empleado(nombre,monto,montoEnLetras,id_empleado){
   var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
   var f=new Date();
-  var fecha = f.getDate() + " de " + meses[f.getMonth()] + f.getFullYear();
-
+  var fecha = f.getDate() + " de " + meses[f.getMonth()] +' '+ f.getFullYear();
+  var fecha_footer = meses[f.getMonth()] +' '+ f.getFullYear();//obtiene la fecha para imprimirlo
+  glob_id_empleado = id_empleado
   glob_nombre = nombre;
   glob_monto = monto;
   glob_monto_Q = montoEnLetras;
   glob_fecha = fecha;
+  glob_fecha_footer = fecha_footer;
 
   $(function(){
     $("#fecha").text('Quetzaltenango, '+ fecha+ '.----');
@@ -300,20 +302,49 @@ function datos_empleado(nombre,monto,montoEnLetras){
 }
 //function imprimir------------------------------
 function imprimir(){
+    var head = '<div style="margin-left: 114px;margin-bottom: 17px;"><b>NO NEGOCIABLE</b></div>'
     var fecha = '<div style="float:left;margin-bottom: 8px;margin-right: 120px;">Quetzaltenango, '+ glob_fecha +'.----</div>';
     var monto = '<div style="margin-bottom: 8px;">'+glob_monto+'</div>'
     var nombre = '<div style="margin-bottom: 8px;"><b>'+glob_nombre+'</b></div>';
     var monto_letras = '<div style="margin-bottom: 8px;">'+glob_monto_Q+'</div>';
+    var footer = '<div style="font-size: 12px;padding-left: 39px;padding-top: 4px;">bono de </div>'
+    var footer_2 = '<div style="font-size: 12px;padding-left: 30px;">'+glob_fecha_footer+'</div>'
 
     var pw = window.open('', '', 'height=400,width=800');
-    pw.document.write('<head style="@page: size: auto;margin:0mm;"></head><body style="margin-left: 150px;margin-top: 50px;">');
+    pw.document.write('<head>' +head+ '</head><body style="margin-left: 150px;margin-top: 50px;">');
     pw.document.write(fecha);
     pw.document.write(monto);
     pw.document.write(nombre);
     pw.document.write(monto_letras);
+    pw.document.write(footer);
+    pw.document.write(footer_2);
     pw.document.write('</body>');
-    pw.print();
+    console.log('imprimir')
+  //  pw.print();
     pw.close();
+    //guarda el cheque se recien se imprimio
+  var request = $.ajax({
+    method: "POST",
+    url: "<?=$base_url?>/Main/guardarcheque",
+    data: {
+      id: glob_id_empleado
+    }
+  });
+  request.done(function(resultado) {
+    console.log(resultado)
+  });
 }
+//function seleccionar rango----------------------------
+function rango(){
+//  debugger
+  var desde = $("#rangoDesde").val();
+  var desde_int = parseInt(desde,10)
+  desde_int += 1;
+  //console.log(desde)
+  $("#rangoHasta").attr('min',desde_int).attr('value', desde_int).attr('max', desde_int + 8);
+}
+//funcion imprimir por rangos---------------------------
+function imprimirRango(){
 
+}
 </script>
