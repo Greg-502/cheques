@@ -46,4 +46,9 @@ class Empleado_model extends CI_Model{
 		$this->db->where("id_Empleado", $id);
 		return $this->db->update("empleado", $data);
 	}
+
+	function guardarcheque($id) {
+		$data = array('id_empleado' => $id);
+		$this->db->insert('cheque', $data);
+	}
 }

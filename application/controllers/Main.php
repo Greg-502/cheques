@@ -63,4 +63,13 @@ class Main extends CI_Controller {
 			echo "no se pudo conectar a la impresora";
 		}
 	}
+
+	public function 	guardarcheque(){
+		$data['base_url'] = $this->config->item('base_url');
+
+		$id_empleado = $_POST['id'];
+
+			$this->empleado_model->guardarCheque($id_empleado);
+			echo "Guardado exitosamente";
+	}
 }
