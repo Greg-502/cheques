@@ -44,6 +44,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <li class="nav-item">
           <a class="nav-link" href="<?php echo base_url(); ?>Add">Añadir</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<?php echo base_url(); ?>Disable">Bajas</a>
+        </li>
       </ul>
 
     </div>

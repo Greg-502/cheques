@@ -26,15 +26,35 @@ class Add extends CI_Controller {
 		$this->load->view('footer', $dataY);
 	}
 
+	function fetch()
+	{
+   		if($this->input->post('cargo_re'))
+		{
+			$datos["cargo_monto"] = $this->MountModel->fetch($this->input->post('cargo_re'));
+			echo $datos["cargo_monto"]->monto;
+		}
+	}
+
+	function fetch_le()
+	{
+   		if($this->input->post('cargo_re'))
+		{
+			$datos["cargo_monto"] = $this->MountModel->fetch($this->input->post('cargo_re'));
+			echo $datos["cargo_monto"]->monto_letras;
+		}
+	}
+
 	function monto() {
+		$id_cargo = $this->input->post("cargo");
+
 		$data = array(
 			'monto' => $this->input->post("monto"),
 		    'monto_letras' => $this->input->post("letras")
 		);
-		if ($this->AddModel->insertMount($data)) {
+		if ($this->AddModel->updateCargo($data,$id_cargo)) {
 			redirect(base_url()."Add");
 		} else {
-			redirect(base_url()."Main/errores");
+			redirect(base_url()."Add/error");
 		}
 	}
 
@@ -43,21 +63,31 @@ class Add extends CI_Controller {
 		$nit = $this->input->post("nit");
 
 		if ($this->NitModel->searchNit($nit)) {
-			redirect(base_url()."Main/errores");
+			redirect(base_url()."Add/error");
 		} else {
 			$data = array(
 				'nombre' => $this->input->post("nombres"),
-				'cargo' => $this->input->post("cargo"),
 				'status' => $status,
 				'nit' => $nit,
-				'id_monto' => $this->input->post("monto")
+				'id_cargo' => $this->input->post("cargo")
 			);
 
 			if ($this->AddModel->insertResidente($data)) {
 				redirect(base_url());
 			} else {
-				redirect(base_url()."Main/errores");
+				redirect(base_url()."Add/error");
 			}
 		}
+	}
+
+	function error(){
+		$year = gmdate('Y');
+		$dataY = array(
+			'anio' => $year
+		);
+
+		$this->load->view('menu');
+		$this->load->view('error');
+		$this->load->view('footer', $dataY);
 	}
 }

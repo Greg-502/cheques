@@ -1,9 +1,10 @@
 <?php 
 	class AddModel extends CI_Model
 	{
-		function insertMount($data)
+		function updateCargo($data, $id_cargo)
 		{
-			return $this->db->insert("monto", $data);
+			$this->db->where("id_cargo", $id_cargo);
+  			return $this->db->update("cargo", $data);
 		}
 
 		function insertResidente($data)
