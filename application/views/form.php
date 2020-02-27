@@ -22,38 +22,42 @@
     }
 }
 </style>
-
 <br><br>
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <?php
-        if ($numeral != 8) {
-          ?>
-            <h4 style="font-weight: bold">Impresión</h4>
-            <form method="POST" action="<?php echo base_url();?>XLote" autocomplete="off">
-            <div class="form-row">
-                <div class="col-md-2 mb-3">
-                  <input id="rangoDesde" onchange="rango()" class="form-control" type="number" min="1" placeholder="Desde" name="from" required minlength="5" value="1">
-                </div>
+      <?php if ($numeral == 3  ) {?>
+        <h4 style="font-weight: bold">Impresión</h4>
+        <form method="POST" action="<?php echo base_url();?>Main/listarImpresion" autocomplete="off">
+        <div class="form-row">
+        <div class="col-md-2 mb-3">
+        <input id="rangoDesde" onchange="rango()" class="form-control" type="number" min="1" placeholder="Desde" name="from" required minlength="5" value="1">
+        </div>
 
-                <div class="col-md-2 mb-3">
-                  <input id="rangoHasta" class="form-control" type="number" min="1" max="10" name="to" required minlength="5" value="1">
-                </div>
+        <div class="col-md-2 mb-3">
+        <input id="rangoHasta" class="form-control" type="number" min="1" max="10" name="to" required minlength="5" value="1">
+        </div>
 
-              <div class="col-md-2">
-                <button type="submit" class="btn btn-primary hvr-icon-fade">Imprimir</button>
-              </div>
-              </form>
-            <div class="col-md-12">
-            <hr class="my-4">
-          <?php
-        }
-      ?>
+        <div class="col-md-2">
+        <input class="btn btn-primary hvr-icon-fade"  role="button" id="continuar" type="submit" name="imprimir" value="imprimir">
+        </div>
+        </form>
 
-        
-      <h4 style="font-weight: bold;">Listado</h4>
-
+        <div class="col-md-12">
+        <hr class="my-4">
+      <?php    } ?>
+      <div class="row">
+        <div class="col-10">
+          <h4 style="font-weight: bold;">Listado</h4>
+        </div>
+        <div class="col-2">
+          <!--btn para imprimir por lote-->
+          <?php if ($numeral == 4): ?>
+            <button onclick="imprimirLote()" class="btn btn-primary hvr-icon-fade pisto">Imprimir</button>
+          <?php endif; ?>
+          <!--Fin-->
+        </div>
+      </div><br>
           <table id="example" class="table table-striped table-bordered table-hover table-responsive-sm table-responsive-md" style="width:100%">
           <thead>
               <tr>
@@ -63,6 +67,9 @@
                 <th scope="col">Nit</th>
                 <th scope="col" style="display: none;">Cargo</th>
                 <th scope="col" style="text-align: center;">Opciones</th>
+                <?php if ($numeral == 3  ) {?>
+                  <th scope="col" style="text-align: center;">Opciones</th>
+                <?php } ?>
               </tr>
           </thead>
           <tbody>
@@ -89,18 +96,21 @@
                     <td><?php echo $xRenglon->nit;?></td>
                     <td style="display: none;"><?php echo $xRenglon->id_cargo;?></td>
                     <td class="text-center">
+                    <?php if ($numeral == 3  ) {?>
+                    <td>
                       <button type="button" <?=$buttonsStatus?> onclick="datos_empleado('<?php echo $xRenglon->nombre?>',<?=$xRenglon->monto?>,'<?=$xRenglon->monto_letras?>',<?=$xRenglon->id_Empleado?>)" data-toggle="modal" data-target="#imprimir" data-whatever="@mdo" class="btn btn-primary"><i class="fas fa-print"></i></button>
                       <button type="button" <?=$buttonsStatus?> class="btn btn-success EditBTN"><i class="fas fa-user-edit"></i></button>
                       <button id="baja" type="button" onclick="DarBaja(<?php echo $xRenglon->id_Empleado.','.$xRenglon->status?>)" <?=$classButton?>>
                         <i id="icon" <?=$classIcon?>></i>
                       </button>
                     </td>
+                  <?php } ?>
                 </tr>
               <?php  endforeach;?>
           <?php  endif;?>
+
           </tbody>
         </table>
-
     </div>
     </div>
     </div>
@@ -324,7 +334,7 @@ function datos_empleado(nombre,monto,montoEnLetras,id_empleado){
   });
 }
 //function imprimir------------------------------
-function imprimir(){
+    function imprimir(){
     var head = '<div style="margin-left: 114px;margin-bottom: 17px;"><b>NO NEGOCIABLE</b></div>'
     var fecha = '<div style="float:left;margin-bottom: 8px;margin-right: 120px;">Quetzaltenango, '+ glob_fecha +'.----</div>';
     var monto = '<div style="margin-bottom: 8px;">'+glob_monto+'</div>'
@@ -367,7 +377,70 @@ function rango(){
   $("#rangoHasta").attr('min',desde_int).attr('value', desde_int).attr('max', desde_int + 8);
 }
 //funcion imprimir por rangos---------------------------
-function imprimirRango(){
+<?php //serializar elementos para utilñizarlos en javascript
+ $nombre = array();
+ $monto = array();
+ $monto_letras = array();
+ $id_empleado = array();
 
+ foreach ($empleados as $key) {
+  $nombre[] = $key->nombre;
+  $monto[] = $key->monto;
+  $monto_letras[] = $key->monto_letras;
+	$id_empleado[] = $key->id_Empleado;
+ }
+
+ $nombreJson = json_encode($nombre);
+ $montoJson = json_encode($monto);
+ $monto_letrasJson = json_encode($monto_letras);
+ $id_empleadoJson = json_encode($id_empleado);
+ ?>
+function imprimirLote(){
+
+  var nombreJS=<?php echo $nombreJson;?>;
+  var montoJS=<?php echo $montoJson;?>;
+  var monto_letrasJS=<?php echo $monto_letrasJson;?>;
+  var id_empleadoJS=<?php echo $id_empleadoJson;?>;
+
+  var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+  var f=new Date();
+  var fecha = f.getDate() + " de " + meses[f.getMonth()] +' '+ f.getFullYear();
+  var fecha_footer = meses[f.getMonth()] +' '+ f.getFullYear();//obtiene la fecha para imprimirlo
+
+
+  for(var i=0;i<nombreJS.length;i++)
+  {
+    var head = '<div style="margin-left: 114px;margin-bottom: 17px;"><b>NO NEGOCIABLE</b></div>'
+    var fecha = '<div style="float:left;margin-bottom: 8px;margin-right: 120px;">Quetzaltenango, '+ fecha +'.----</div>';
+    var monto = '<div style="margin-bottom: 8px;">'+montoJS[i]+'</div>'
+    var nombre = '<div style="margin-bottom: 8px;"><b>'+nombreJS[i]+'</b></div>';
+    var monto_letras = '<div style="margin-bottom: 8px;">'+monto_letrasJS[i]+'</div>';
+    var footer = '<div style="font-size: 12px;padding-left: 39px;padding-top: 4px;">bono de </div>'
+    var footer_2 = '<div style="font-size: 12px;padding-left: 30px;">'+fecha_footer+'</div>'
+
+    var pw = window.open('', '', 'height=400,width=800');
+    pw.document.write('<head>' +head+ '</head><body style="margin-left: 150px;margin-top: 50px;">');
+    pw.document.write(fecha);
+    pw.document.write(monto);
+    pw.document.write(nombre);
+    pw.document.write(monto_letras);
+    pw.document.write(footer);
+    pw.document.write(footer_2);
+    pw.document.write('</body>');
+    console.log('imprimir')
+    //pw.print();
+    pw.close();
+    //guarda el cheque se recien se imprimio
+    var request = $.ajax({
+      method: "POST",
+      url: "<?=$base_url?>/Main/guardarcheque",
+      data: {
+        id: id_empleadoJS[i]
+      }
+    });
+    request.done(function(resultado) {
+      console.log(resultado)
+    });
+  }
 }
 </script>

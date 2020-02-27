@@ -10,25 +10,37 @@ class XLote extends CI_Controller {
 
 	public function index()
 	{
+			$year = gmdate('Y');
+			$dataY = array(
+				'anio' => $year
+			);
+
 		$from = $_POST['from'];
 		$to = $_POST['to'];
 
-		//consulta si $to es igual o menor a el ultimo id en la base de datos
-		if ($this->LotesModel->maximum()) {
-			$data = array(
-				'maximo' => $this->LotesModel->maximum()
-			);
+		$validador = 4;
+		$data['numeral'] = $validador;
+		$data['empleados'] = $this->LotesModel->listarImpresion($from, $to);
 
-			$maximo = $data['maximo']->maximum;
-
-			if (($to < $from) || ($to > $maximo)) {
-				redirect(base_url()."Xlote/code_5");
-			} else {
-				echo "OK";
-			}
-		} else {
-			redirect(base_url()."Xlote/errores");
-		}
+		$this->load->view('menu');
+		$this->load->view('form',$data);
+		$this->load->view('footer', $dataY);
+		// consulta si $to es igual o menor a el ultimo id en la base de datos
+		// if ($this->LotesModel->maximum()) {
+		// 	$data = array(
+		// 		'maximo' => $this->LotesModel->maximum()
+		// 	);
+		//
+		// 	$maximo = $data['maximo']->maximum;
+		//
+		// 	if (($to < $from) || ($to > $maximo)) {
+		// 		redirect(base_url()."Xlote/code_5");
+		// 	} else {
+		// 		echo "OK";
+		// 	}
+		// } else {
+		// 	redirect(base_url()."Xlote/errores");
+		// }
 	}
 
 	public function code_5()
