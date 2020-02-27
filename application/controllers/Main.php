@@ -18,11 +18,11 @@ class Main extends CI_Controller {
 		$dataY = array(
 			'anio' => $year
 		);
-		$data['empleados'] = $this->empleado_model->listar();
+
 		$validador = 3;
+		$data['empleados'] = $this->empleado_model->listar();
 		$data['numeral'] = $validador;
-
-
+    
 		$this->load->view('menu');
 		$this->load->view('form',$data);
 		$this->load->view('footer', $dataY);
