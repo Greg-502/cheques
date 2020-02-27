@@ -27,24 +27,31 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <h4 style="font-weight: bold">Impresión</h4>
-      <form method="POST" action="<?php echo base_url();?>XLote" autocomplete="off">
-      <div class="form-row">
-          <div class="col-md-2 mb-3">
-            <input id="rangoDesde" onchange="rango()" class="form-control" type="number" min="1" placeholder="Desde" name="from" required minlength="5" value="1">
-          </div>
+      <?php
+        if ($numeral != 8) {
+          ?>
+            <h4 style="font-weight: bold">Impresión</h4>
+            <form method="POST" action="<?php echo base_url();?>XLote" autocomplete="off">
+            <div class="form-row">
+                <div class="col-md-2 mb-3">
+                  <input id="rangoDesde" onchange="rango()" class="form-control" type="number" min="1" placeholder="Desde" name="from" required minlength="5" value="1">
+                </div>
 
-          <div class="col-md-2 mb-3">
-            <input id="rangoHasta" class="form-control" type="number" min="1" max="10" name="to" required minlength="5" value="1">
-          </div>
+                <div class="col-md-2 mb-3">
+                  <input id="rangoHasta" class="form-control" type="number" min="1" max="10" name="to" required minlength="5" value="1">
+                </div>
 
-        <div class="col-md-2">
-          <button type="submit" class="btn btn-primary hvr-icon-fade">Imprimir</button>
-        </div>
-        </form>
+              <div class="col-md-2">
+                <button type="submit" class="btn btn-primary hvr-icon-fade">Imprimir</button>
+              </div>
+              </form>
+            <div class="col-md-12">
+            <hr class="my-4">
+          <?php
+        }
+      ?>
 
-        <div class="col-md-12">
-        <hr class="my-4">
+        
       <h4 style="font-weight: bold;">Listado</h4>
 
           <table id="example" class="table table-striped table-bordered table-hover table-responsive-sm table-responsive-md" style="width:100%">
@@ -54,6 +61,7 @@
                 <th scope="col">#Empleado</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Nit</th>
+                <th scope="col" style="display: none;">Cargo</th>
                 <th scope="col" style="text-align: center;">Opciones</th>
               </tr>
           </thead>
@@ -77,9 +85,10 @@
                 <tr>
                   <td><?php echo $xRenglon->cargo; ?></td>
                     <td><?php echo $xRenglon->id_Empleado?></td>
-                    <td><?php echo $xRenglon->nombre;?></td>
+                    <td><a style="color: black; text-decoration: none;" href="<?php base_url();?>Historial/index/<?php echo $xRenglon->id_Empleado;?>"><?php echo $xRenglon->nombre;?></a></td>
                     <td><?php echo $xRenglon->nit;?></td>
-                    <td>
+                    <td style="display: none;"><?php echo $xRenglon->id_cargo;?></td>
+                    <td class="text-center">
                       <button type="button" <?=$buttonsStatus?> onclick="datos_empleado('<?php echo $xRenglon->nombre?>',<?=$xRenglon->monto?>,'<?=$xRenglon->monto_letras?>',<?=$xRenglon->id_Empleado?>)" data-toggle="modal" data-target="#imprimir" data-whatever="@mdo" class="btn btn-primary"><i class="fas fa-print"></i></button>
                       <button type="button" <?=$buttonsStatus?> class="btn btn-success EditBTN"><i class="fas fa-user-edit"></i></button>
                       <button id="baja" type="button" onclick="DarBaja(<?php echo $xRenglon->id_Empleado.','.$xRenglon->status?>)" <?=$classButton?>>
@@ -151,7 +160,7 @@
       </div>
       <div class="modal-body">
 
-        <form method="POST" action="<?php echo base_url();?>Edit/residente" autocomplete="off" id="formResidente">
+        <form autocomplete="off" id="formResidente">
         <div class="form-row">
           <div class="col-12 mb-3">
                <input type="hidden" id="idRe" name="idRe">
@@ -162,26 +171,15 @@
           <div class="col-12 mb-3">
                <input class="form-control" type="text" id="nitRE" name="nitRE">
           </div>
-          <div class="col-12 mb-3">
-                <select id="depto" name="cargo" class="custom-select">
+
+            <div class="col-12 mb-3">
+                <select name="cargoRE" class="custom-select" required id="cargo_residente">
                   <option value="">Cargo</option>
                   <option value="1">Residente I</option>
                   <option value="2">Residente II</option>
                   <option value="3">Residente III</option>
                   <option value="4">Residente IV</option>
-                  <option value="5">Jefe de residentes</option>
-                 </select>
-            </div>
-
-            <div class="col-12 mb-3">
-                <select name="monto" class="custom-select">
-                  <option value="">Monto</option>
-                  <?php
-                  foreach($montos as $row)
-                  {
-                   echo '<option value="'.$row->id_monto.'">'."Q ".$row->monto.'</option>';
-                  }
-                  ?>
+                  <option value="5">Residente (Jefe)</option>
                  </select>
             </div>
       </div>
@@ -206,7 +204,7 @@ var glob_nombre,glob_monto,glob_monto_Q, glob_fecha, glob_fecha_footer;//variabl
 
 $(document).ready(function() {
     var groupColumn = 0;
-    var table = $('#example').DataTable({
+    tableDT = $('#example').DataTable({
       "language": {
             "lengthMenu": "_MENU_",
             "zeroRecords": "Ningún registro",
@@ -246,15 +244,40 @@ $(document).ready(function() {
 
     var fila;
     $(document).on("click", ".EditBTN", function(){
+      
       fila = $(this).closest("tr");
       id = parseInt(fila.find('td:eq(0)').text());
       nombre = fila.find('td:eq(1)').text();
       nit = fila.find('td:eq(2)').text();
+      cargo_id = parseInt(fila.find('td:eq(3)').text());
 
       $("#idRe").val(id);
       $("#nombreRE").val(nombre);
       $("#nitRE").val(nit);
+      $("#cargo_residente").val(cargo_id);
       $("#editaResidente").modal("show");
+    });
+
+  $("#formResidente").submit(function(e){
+    //e.preventDefault();    
+    nombre = $.trim($("#nombreRE").val());
+    nit = $.trim($("#nitRE").val());
+    cargo = $.trim($("#cargo_residente").val());
+    $.ajax({
+        url: "<?php echo base_url(); ?>Edit/residente",
+        type: "POST",
+        dataType: "json",
+        data: {nombre:nombre, nit:nit, cargo:cargo, id:id},
+        success: function(datos){  
+            console.log(datos);
+            id = datos[0].id;            
+            nombre = datos[0].nombre;
+            nit = datos[0].nit;
+            cargo = datos[0].cargo;
+            tableDT.row(fila).datos([id,nombre,nit,cargo]).draw();           
+        }
+    });
+    $("#editaResidente").modal("hide");
     });
 } );
 
@@ -272,10 +295,10 @@ $(document).ready(function() {
     });
     request.done(function(resultado) {
         if (status == "1") {
-          swal.fire(resultado);
+          //swal.fire(resultado);
           location.reload();
         }else if (status == "0") {
-          swal.fire(resultado);
+          //swal.fire(resultado);
           location.reload();
         }
     });

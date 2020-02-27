@@ -9,16 +9,15 @@ class Edit extends CI_Controller {
 
 	public function residente(){
 		$this->load->model("empleado_model");
-		$idRe = $_POST['idRe'];
+
+		$idRe = $_POST['id'];
 		$data = array(
-			'nombre' => $_POST['nombreRE'],
-			'nit' => $_POST['nitRE']
+			'nombre' => $_POST['nombre'],
+			'nit' => $_POST['nit'],
+			'id_cargo' => $_POST['cargo']
 		);
 
-		if ($this->empleado_model->update_residente($idRe, $data)) {
-			redirect(base_url()."Main");
-		}else{
-			redirect(base_url()."Main/errores");
-		}
+		$datos = $this->empleado_model->update_residente($idRe, $data);
+		print json_encode($datos, JSON_UNESCAPED_UNICODE);
 	}
 }
