@@ -1,0 +1,167 @@
+[33mcommit c7bee2bbe85f7c48d4b16fce46d57c68cea2e791[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31mGreg/master[m[33m)[m
+Merge: f3f68d7 ccb8805
+Author: Greg <gp.israel@icloud.com>
+Date:   Wed Feb 26 08:30:05 2020 -0600
+
+    Merge pull request #6 from Greg-502/Cheques_05
+    
+    Formulario para añadir empleado y cargo
+
+[33mcommit ccb88056c4913f5a61de129f5a099d3dcc2daf99[m
+Merge: 7b54f9e f3f68d7
+Author: Greg <gp.israel@icloud.com>
+Date:   Wed Feb 26 08:29:54 2020 -0600
+
+    Merge branch 'master' into Cheques_05
+
+[33mcommit 7b54f9e5e7a4de553c809af0e6d7b3d8e4748f48[m
+Author: Greg-502 <gp.israel@icloud.com>
+Date:   Wed Feb 26 08:25:42 2020 -0600
+
+    Formulario para añadir empleado y cargo
+
+[33mcommit f3f68d70322234771f6642c98067b60521dd6ac2[m
+Merge: 71e262d 74dfc92
+Author: Greg <gp.israel@icloud.com>
+Date:   Wed Feb 26 08:19:56 2020 -0600
+
+    Merge pull request #5 from Greg-502/Cambios-impresion
+    
+    Cambios en el formato de impresión
+
+[33mcommit 74dfc926c5f628742d461dd3aa66ca06d3335afb[m[33m ([m[1;31morigin/Cambios-impresion[m[33m, [m[1;32mCambios-impresion[m[33m)[m
+Author: kevinGarcia15 <gkevin964@gmail.com>
+Date:   Wed Feb 26 08:12:59 2020 -0600
+
+    Cambios en el formato de impresión
+
+[33mcommit 71e262d5ed6f5a7733f102705139ac2a36a4318b[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 3a7498d 92d5e7d
+Author: Greg <gp.israel@icloud.com>
+Date:   Tue Feb 25 08:53:41 2020 -0600
+
+    Merge pull request #4 from Greg-502/Cheques_04
+    
+    BD modificada, se ha agregado cargo a monto
+
+[33mcommit 92d5e7dff8501b63612b74df50bd5ec7a2ea9320[m[33m ([m[1;31morigin/Cheques_04[m[33m)[m
+Author: Greg-502 <gp.israel@icloud.com>
+Date:   Tue Feb 25 08:52:04 2020 -0600
+
+    BD modificada, se ha agregado cargo a monto
+
+[33mcommit 3a7498d0bc5872b1e73400aaffdfff5f230cfee0[m
+Merge: 550db33 cc2b820
+Author: Greg <gp.israel@icloud.com>
+Date:   Tue Feb 25 08:11:10 2020 -0600
+
+    Merge pull request #3 from Greg-502/enhancement_347
+    
+    Edicion agregada
+
+[33mcommit cc2b820bf1fd762f86380beb2e8f503107f7d069[m[33m ([m[1;31morigin/enhancement_347[m[33m)[m
+Author: Greg-502 <gp.israel@icloud.com>
+Date:   Tue Feb 25 08:07:02 2020 -0600
+
+    Edicion agregada
+
+[33mcommit 550db33c7f30d80d3439b9af1270d50692adb473[m
+Merge: 83a5d79 abce256
+Author: Greg-502 <gp.israel@icloud.com>
+Date:   Mon Feb 24 08:27:04 2020 -0600
+
+    Adiciones de kevin, impresion
+    Merge branch 'master' of https://github.com/Greg-502/chequess
+
+[33mcommit 83a5d797c6265b2baf6dbc8db538e387dda9aace[m
+Author: Greg-502 <gp.israel@icloud.com>
+Date:   Fri Feb 21 16:32:38 2020 -0600
+
+    Pequenias mejoras al formulario de agregar residente
+
+[33mcommit abce256d60d0cf70edafa9bffd24a6c817f6252e[m
+Merge: 8a0dad5 bc3f356
+Author: kevinGarcia15 <gkevin964@gmail.com>
+Date:   Fri Feb 21 16:27:42 2020 -0600
+
+    Agregado modulo imprimir individual2
+
+[33mcommit 8a0dad503c91aa97755a07f077babcce93fa76a0[m
+Author: kevinGarcia15 <gkevin964@gmail.com>
+Date:   Fri Feb 21 16:19:16 2020 -0600
+
+    Agregado modulo imprimir individual
+
+[33mcommit bc3f356474a932cb2a139f9ca432ba5630cea1a2[m
+Author: Greg-502 <gp.israel@icloud.com>
+Date:   Fri Feb 21 14:21:35 2020 -0600
+
+    Controladores y modelos para agregar monto y residentes agregados, formulario para impresion por lote añadido
+
+[33mcommit 8d2d843d44ad13929abf49cc8cdf9935706573b1[m
+Merge: 5bbb309 82e3ec6
+Author: kevinGarcia15 <gkevin964@gmail.com>
+Date:   Thu Feb 20 16:15:52 2020 -0600
+
+    prueba pullprueba pull  Merge branch 'master' of https://github.com/Greg-502/cheques
+     Lines starting with '#' will be ignored, and an empty message aborts
+
+[33mcommit 5bbb309eb577bdb8feecf44d46a5ae3ad25a4ba1[m
+Author: kevinGarcia15 <gkevin964@gmail.com>
+Date:   Thu Feb 20 16:12:46 2020 -0600
+
+    formulario flotante
+
+[33mcommit 82e3ec695a193af658a98ddfcecf741e8f337f85[m
+Merge: 8ff7fc1 83b989f
+Author: Greg <gp.israel@icloud.com>
+Date:   Thu Feb 20 16:09:27 2020 -0600
+
+    Merge pull request #2 from Greg-502/enhancement_346
+    
+    Adicion de ruta a agregar (pull request)
+
+[33mcommit 83b989f35bfc99d18bb74e678d78b672b9518f6e[m[33m ([m[1;31morigin/enhancement_346[m[33m, [m[1;31morigin/enhancement_345[m[33m)[m
+Author: Greg-502 <gp.israel@icloud.com>
+Date:   Thu Feb 20 16:07:07 2020 -0600
+
+    Adicion de ruta a agregar
+
+[33mcommit 8ff7fc17e1f2c3c9aa4cb30a83d7a62f2354d8e3[m
+Merge: 32bc3e8 21744dc
+Author: Greg <gp.israel@icloud.com>
+Date:   Thu Feb 20 16:01:19 2020 -0600
+
+    Merge pull request #1 from Greg-502/enhancement_345
+    
+    Prueba de commit
+
+[33mcommit 21744dce238d28c8b87090d48da2c27c1e89b7c8[m
+Author: Greg-502 <gp.israel@icloud.com>
+Date:   Thu Feb 20 15:56:37 2020 -0600
+
+    aPrueba de commit
+
+[33mcommit 32bc3e8f6858f819b8ec45a6c177aa818e980f1f[m
+Author: kevinGarcia15 <gkevin964@gmail.com>
+Date:   Wed Feb 19 16:24:04 2020 -0600
+
+    funcionalidad cambiar estatus
+
+[33mcommit a3dd55f913ec691b81a4ae6091c6041ba5ec10a2[m
+Author: Greg-502 <gp.israel@icloud.com>
+Date:   Wed Feb 19 08:55:13 2020 -0600
+
+    Tabla para residentes agregada
+
+[33mcommit 991277985e09097af9c9527087efafa3beaa3de1[m
+Author: Greg-502 <gp.israel@icloud.com>
+Date:   Tue Feb 18 16:20:20 2020 -0600
+
+    sql del proyecto
+
+[33mcommit 5f9a002406728979142c767a9b5ae3cc41b2f7e9[m
+Author: Greg-502 <gp.israel@icloud.com>
+Date:   Tue Feb 18 15:58:13 2020 -0600
+
+    Proyecto base
