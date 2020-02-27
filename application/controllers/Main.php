@@ -19,10 +19,12 @@ class Main extends CI_Controller {
 			'anio' => $year
 		);
 		$data['empleados'] = $this->empleado_model->listar();
-		$data2['montos'] = $this->MountModel->mounts();
+		$validador = 3;
+		$data['numeral'] = $validador;
+
 
 		$this->load->view('menu');
-		$this->load->view('form',$data,$data2);
+		$this->load->view('form',$data);
 		$this->load->view('footer', $dataY);
 	}
 
@@ -71,5 +73,24 @@ class Main extends CI_Controller {
 
 			$this->empleado_model->guardarCheque($id_empleado);
 			echo "Guardado exitosamente";
+	}
+
+	public function 	listarImpresion(){
+		$data['base_url'] = $this->config->item('base_url');
+
+		$from = "";
+		$to = "";
+		if ($this->input->post('imprimir') == 'imprimir') {
+			$from = $_POST['from'];
+			$to = $_POST['to'];
+			$validador = 4;
+			$data['numeral'] = $validador;
+			$data['empleados'] = $this->empleado_model->listarImpresion($from, $to);
+
+			$this->load->view('menu');
+			$this->load->view('form',$data);
+		}else {
+			redirect("/Main");
+		}
 	}
 }
