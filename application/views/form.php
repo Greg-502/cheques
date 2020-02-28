@@ -11,14 +11,9 @@
     width: 450px;
     justify-content: space-between;
   }
-  .pisto {
-    text-align: right;
-    font-weight: bold;
-  }
   @media (max-width: 767px) {
     .pisto{
       text-align: left;
-      color: gray;
     }
 }
 </style>
