@@ -319,16 +319,17 @@ function datos_empleado(nombre,monto,montoEnLetras,id_empleado){
   var f=new Date();
   var fecha = f.getDate() + " de " + meses[f.getMonth()] +' '+ f.getFullYear();
   var fecha_footer = meses[f.getMonth()] +' '+ f.getFullYear();//obtiene la fecha para imprimirlo
+  var monto_decimal = monto.toFixed(2);
   glob_id_empleado = id_empleado
   glob_nombre = nombre;
-  glob_monto = monto;
+  glob_monto = monto_decimal;
   glob_monto_Q = montoEnLetras;
   glob_fecha = fecha;
   glob_fecha_footer = fecha_footer;
 
   $(function(){
     $("#fecha").text('Quetzaltenango, '+ fecha+ '.----');
-    $("#monto").text('Q.'+monto);
+    $("#monto").text('Q.'+monto_decimal);
     $("#nombre").text(nombre);
     $("#monto_letras").text(montoEnLetras);
   });
@@ -336,15 +337,15 @@ function datos_empleado(nombre,monto,montoEnLetras,id_empleado){
 //function imprimir------------------------------
     function imprimir(){
     var head = '<div style="margin-left: 114px;margin-bottom: 17px;"><b>NO NEGOCIABLE</b></div>'
-    var fecha = '<div style="float:left;margin-bottom: 8px;margin-right: 120px;">Quetzaltenango, '+ glob_fecha +'.----</div>';
-    var monto = '<div style="margin-bottom: 8px;">'+glob_monto+'</div>'
+    var fecha = '<div style="float:left;margin-bottom: 7px;margin-right: 160px;">Quetzaltenango, '+ glob_fecha +'.----</div>';
+    var monto = '<div style="margin-bottom: 7px;">'+glob_monto+'</div>'
     var nombre = '<div style="margin-bottom: 8px;"><b>'+glob_nombre+'</b></div>';
     var monto_letras = '<div style="margin-bottom: 8px;">'+glob_monto_Q+'</div>';
-    var footer = '<div style="font-size: 12px;padding-left: 39px;padding-top: 4px;">bono de </div>'
-    var footer_2 = '<div style="font-size: 12px;padding-left: 30px;">'+glob_fecha_footer+'</div>'
+    var footer = '<div style="font-size: 12px;padding-left: 52px;padding-top: 10px;">bono de </div>'
+    var footer_2 = '<div style="font-size: 12px;padding-left: 42px;margin-top: -2px;">'+glob_fecha_footer+'</div>'
 
     var pw = window.open('', '', 'height=400,width=800');
-    pw.document.write('<head>' +head+ '</head><body style="margin-left: 150px;margin-top: 50px;">');
+    pw.document.write('<head>' +head+ '</head><body style="margin-left: 170px;margin-top: 27px;">');
     pw.document.write(fecha);
     pw.document.write(monto);
     pw.document.write(nombre);
@@ -353,7 +354,7 @@ function datos_empleado(nombre,monto,montoEnLetras,id_empleado){
     pw.document.write(footer_2);
     pw.document.write('</body>');
     console.log('imprimir')
-  //  pw.print();
+    pw.print();
     pw.close();
     //guarda el cheque se recien se imprimio
   var request = $.ajax({
@@ -406,20 +407,22 @@ function imprimirLote(){
   var f=new Date();
   var fecha = f.getDate() + " de " + meses[f.getMonth()] +' '+ f.getFullYear();
   var fecha_footer = meses[f.getMonth()] +' '+ f.getFullYear();//obtiene la fecha para imprimirlo
+  var head = '<div style="margin-left: 114px;margin-bottom: 17px;"><b>NO NEGOCIABLE</b></div>'
+  var fecha = '<div style="float:left;margin-bottom: 7px;margin-right: 160px;">Quetzaltenango, '+ fecha +'.----</div>';
+  var footer = '<div style="font-size: 12px;padding-left: 52px;padding-top: 10px;">bono de </div>'
 
 
   for(var i=0;i<nombreJS.length;i++)
   {
-    var head = '<div style="margin-left: 114px;margin-bottom: 17px;"><b>NO NEGOCIABLE</b></div>'
-    var fecha = '<div style="float:left;margin-bottom: 8px;margin-right: 120px;">Quetzaltenango, '+ fecha +'.----</div>';
-    var monto = '<div style="margin-bottom: 8px;">'+montoJS[i]+'</div>'
+    var monto = parseInt(montoJS[i]);
+    var monto_decimal = monto.toFixed(2);
+    var monto = '<div style="margin-bottom: 8px;">'+monto_decimal+'</div>'
     var nombre = '<div style="margin-bottom: 8px;"><b>'+nombreJS[i]+'</b></div>';
     var monto_letras = '<div style="margin-bottom: 8px;">'+monto_letrasJS[i]+'</div>';
-    var footer = '<div style="font-size: 12px;padding-left: 39px;padding-top: 4px;">bono de </div>'
-    var footer_2 = '<div style="font-size: 12px;padding-left: 30px;">'+fecha_footer+'</div>'
+    var footer_2 = '<div style="font-size: 12px;padding-left: 42px;margin-top: -2px;">'+fecha_footer+'</div>'
 
     var pw = window.open('', '', 'height=400,width=800');
-    pw.document.write('<head>' +head+ '</head><body style="margin-left: 150px;margin-top: 50px;">');
+    pw.document.write('<head>' +head+ '</head><body style="margin-left: 170px;margin-top: 27px;">');
     pw.document.write(fecha);
     pw.document.write(monto);
     pw.document.write(nombre);
@@ -428,9 +431,9 @@ function imprimirLote(){
     pw.document.write(footer_2);
     pw.document.write('</body>');
     console.log('imprimir')
-    //pw.print();
+    pw.print();
     pw.close();
-    //guarda el cheque se recien se imprimio
+    // //guarda el cheque se recien se imprimio
     var request = $.ajax({
       method: "POST",
       url: "<?=$base_url?>/Main/guardarcheque",
