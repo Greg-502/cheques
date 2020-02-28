@@ -66,8 +66,7 @@
                 <th scope="col">Nombre</th>
                 <th scope="col">Nit</th>
                 <th scope="col" style="display: none;">Cargo</th>
-                <th scope="col" style="text-align: center;">Opciones</th>
-                <?php if ($numeral == 3  ) {?>
+                <?php if (($numeral == 3) || ($numeral == 8)) {?>
                   <th scope="col" style="text-align: center;">Opciones</th>
                 <?php } ?>
               </tr>
@@ -95,9 +94,8 @@
                     <td><a style="color: black; text-decoration: none;" href="<?php base_url();?>Historial/index/<?php echo $xRenglon->id_Empleado;?>"><?php echo $xRenglon->nombre;?></a></td>
                     <td><?php echo $xRenglon->nit;?></td>
                     <td style="display: none;"><?php echo $xRenglon->id_cargo;?></td>
+                    <?php if (($numeral == 3) || ($numeral == 8)) {?>
                     <td class="text-center">
-                    <?php if ($numeral == 3  ) {?>
-                    <td>
                       <button type="button" <?=$buttonsStatus?> onclick="datos_empleado('<?php echo $xRenglon->nombre?>',<?=$xRenglon->monto?>,'<?=$xRenglon->monto_letras?>',<?=$xRenglon->id_Empleado?>)" data-toggle="modal" data-target="#imprimir" data-whatever="@mdo" class="btn btn-primary"><i class="fas fa-print"></i></button>
                       <button type="button" <?=$buttonsStatus?> class="btn btn-success EditBTN"><i class="fas fa-user-edit"></i></button>
                       <button id="baja" type="button" onclick="DarBaja(<?php echo $xRenglon->id_Empleado.','.$xRenglon->status?>)" <?=$classButton?>>
@@ -132,13 +130,13 @@
       </div>
       <div class="modal-body">
         <div class="row">
-      			<div class="col-10">
+            <div class="col-10">
               <p id="fecha"></p>
-      			</div>
-      			<div class="col-2">
+            </div>
+            <div class="col-2">
               <p id="monto"></p>
-      			</div>
-      	</div>
+            </div>
+        </div>
         <div class="row">
           <div class="col-10">
             <p><strong id="nombre"></strong></p>
@@ -170,7 +168,7 @@
       </div>
       <div class="modal-body">
 
-        <form autocomplete="off" id="formResidente">
+        <form autocomplete="off" id="formResidente" method="POST" action="<?php echo base_url();?>Edit/residente">
         <div class="form-row">
           <div class="col-12 mb-3">
                <input type="hidden" id="idRe" name="idRe">
@@ -266,28 +264,6 @@ $(document).ready(function() {
       $("#nitRE").val(nit);
       $("#cargo_residente").val(cargo_id);
       $("#editaResidente").modal("show");
-    });
-
-  $("#formResidente").submit(function(e){
-    //e.preventDefault();    
-    nombre = $.trim($("#nombreRE").val());
-    nit = $.trim($("#nitRE").val());
-    cargo = $.trim($("#cargo_residente").val());
-    $.ajax({
-        url: "<?php echo base_url(); ?>Edit/residente",
-        type: "POST",
-        dataType: "json",
-        data: {nombre:nombre, nit:nit, cargo:cargo, id:id},
-        success: function(datos){  
-            console.log(datos);
-            id = datos[0].id;            
-            nombre = datos[0].nombre;
-            nit = datos[0].nit;
-            cargo = datos[0].cargo;
-            tableDT.row(fila).datos([id,nombre,nit,cargo]).draw();           
-        }
-    });
-    $("#editaResidente").modal("hide");
     });
 } );
 
@@ -388,7 +364,7 @@ function rango(){
   $nombre[] = $key->nombre;
   $monto[] = $key->monto;
   $monto_letras[] = $key->monto_letras;
-	$id_empleado[] = $key->id_Empleado;
+  $id_empleado[] = $key->id_Empleado;
  }
 
  $nombreJson = json_encode($nombre);
