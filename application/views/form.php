@@ -52,8 +52,8 @@
         </div>
         <div class="col-2">
           <!--btn para imprimir por lote-->
-          <?php if ($numeral == 4): ?>
-            <button onclick="imprimirLote()" class="btn btn-primary hvr-icon-fade pisto">Imprimir</button>
+          <?php if ($numeral == 4 and !empty($empleados)): ?>
+              <button onclick="imprimirLote()" class="btn btn-primary hvr-icon-fade pisto">Imprimir</button>
           <?php endif; ?>
           <!--Fin-->
         </div>
@@ -254,7 +254,7 @@ $(document).ready(function() {
 
     var fila;
     $(document).on("click", ".EditBTN", function(){
-      
+
       fila = $(this).closest("tr");
       id = parseInt(fila.find('td:eq(0)').text());
       nombre = fila.find('td:eq(1)').text();
@@ -269,7 +269,7 @@ $(document).ready(function() {
     });
 
   $("#formResidente").submit(function(e){
-    //e.preventDefault();    
+    //e.preventDefault();
     nombre = $.trim($("#nombreRE").val());
     nit = $.trim($("#nitRE").val());
     cargo = $.trim($("#cargo_residente").val());
@@ -278,13 +278,13 @@ $(document).ready(function() {
         type: "POST",
         dataType: "json",
         data: {nombre:nombre, nit:nit, cargo:cargo, id:id},
-        success: function(datos){  
+        success: function(datos){
             console.log(datos);
-            id = datos[0].id;            
+            id = datos[0].id;
             nombre = datos[0].nombre;
             nit = datos[0].nit;
             cargo = datos[0].cargo;
-            tableDT.row(fila).datos([id,nombre,nit,cargo]).draw();           
+            tableDT.row(fila).datos([id,nombre,nit,cargo]).draw();
         }
     });
     $("#editaResidente").modal("hide");
@@ -360,7 +360,9 @@ function datos_empleado(nombre,monto,montoEnLetras,id_empleado){
     method: "POST",
     url: "<?=$base_url?>/Main/guardarcheque",
     data: {
-      id: glob_id_empleado
+      id: glob_id_empleado,
+      monto: glob_monto,
+      monto_letras: glob_monto_Q
     }
   });
   request.done(function(resultado) {

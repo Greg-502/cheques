@@ -22,7 +22,7 @@ class Main extends CI_Controller {
 		$validador = 3;
 		$data['empleados'] = $this->empleado_model->listar();
 		$data['numeral'] = $validador;
-    
+
 		$this->load->view('menu');
 		$this->load->view('form',$data);
 		$this->load->view('footer', $dataY);
@@ -70,8 +70,10 @@ class Main extends CI_Controller {
 		$data['base_url'] = $this->config->item('base_url');
 
 		$id_empleado = $_POST['id'];
+		$monto = $_POST['monto'];
+		$monto_letras = $_POST['monto_letras'];
 
-			$this->empleado_model->guardarCheque($id_empleado);
+			$this->empleado_model->guardarCheque($id_empleado,$monto,$monto_letras);
 			echo "Guardado exitosamente";
 	}
 
