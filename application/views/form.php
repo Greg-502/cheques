@@ -66,8 +66,7 @@
                 <th scope="col">Nombre</th>
                 <th scope="col">Nit</th>
                 <th scope="col" style="display: none;">Cargo</th>
-                <th scope="col" style="text-align: center;">Opciones</th>
-                <?php if ($numeral == 3  ) {?>
+                <?php if (($numeral == 3) || ($numeral == 8)) {?>
                   <th scope="col" style="text-align: center;">Opciones</th>
                 <?php } ?>
               </tr>
@@ -95,9 +94,8 @@
                     <td><a style="color: black; text-decoration: none;" href="<?php base_url();?>Historial/index/<?php echo $xRenglon->id_Empleado;?>"><?php echo $xRenglon->nombre;?></a></td>
                     <td><?php echo $xRenglon->nit;?></td>
                     <td style="display: none;"><?php echo $xRenglon->id_cargo;?></td>
+                    <?php if (($numeral == 3) || ($numeral == 8)) {?>
                     <td class="text-center">
-                    <?php if ($numeral == 3  ) {?>
-                    <td>
                       <button type="button" <?=$buttonsStatus?> onclick="datos_empleado('<?php echo $xRenglon->nombre?>',<?=$xRenglon->monto?>,'<?=$xRenglon->monto_letras?>',<?=$xRenglon->id_Empleado?>)" data-toggle="modal" data-target="#imprimir" data-whatever="@mdo" class="btn btn-primary"><i class="fas fa-print"></i></button>
                       <button type="button" <?=$buttonsStatus?> class="btn btn-success EditBTN"><i class="fas fa-user-edit"></i></button>
                       <button id="baja" type="button" onclick="DarBaja(<?php echo $xRenglon->id_Empleado.','.$xRenglon->status?>)" <?=$classButton?>>
@@ -132,13 +130,13 @@
       </div>
       <div class="modal-body">
         <div class="row">
-      			<div class="col-10">
+            <div class="col-10">
               <p id="fecha"></p>
-      			</div>
-      			<div class="col-2">
+            </div>
+            <div class="col-2">
               <p id="monto"></p>
-      			</div>
-      	</div>
+            </div>
+        </div>
         <div class="row">
           <div class="col-10">
             <p><strong id="nombre"></strong></p>
@@ -170,7 +168,7 @@
       </div>
       <div class="modal-body">
 
-        <form autocomplete="off" id="formResidente">
+        <form autocomplete="off" id="formResidente" method="POST" action="<?php echo base_url();?>Edit/residente">
         <div class="form-row">
           <div class="col-12 mb-3">
                <input type="hidden" id="idRe" name="idRe">
@@ -267,28 +265,6 @@ $(document).ready(function() {
       $("#cargo_residente").val(cargo_id);
       $("#editaResidente").modal("show");
     });
-
-  $("#formResidente").submit(function(e){
-    //e.preventDefault();    
-    nombre = $.trim($("#nombreRE").val());
-    nit = $.trim($("#nitRE").val());
-    cargo = $.trim($("#cargo_residente").val());
-    $.ajax({
-        url: "<?php echo base_url(); ?>Edit/residente",
-        type: "POST",
-        dataType: "json",
-        data: {nombre:nombre, nit:nit, cargo:cargo, id:id},
-        success: function(datos){  
-            console.log(datos);
-            id = datos[0].id;            
-            nombre = datos[0].nombre;
-            nit = datos[0].nit;
-            cargo = datos[0].cargo;
-            tableDT.row(fila).datos([id,nombre,nit,cargo]).draw();           
-        }
-    });
-    $("#editaResidente").modal("hide");
-    });
 } );
 
 //funcion dar de baja------------------------
@@ -319,16 +295,17 @@ function datos_empleado(nombre,monto,montoEnLetras,id_empleado){
   var f=new Date();
   var fecha = f.getDate() + " de " + meses[f.getMonth()] +' '+ f.getFullYear();
   var fecha_footer = meses[f.getMonth()] +' '+ f.getFullYear();//obtiene la fecha para imprimirlo
+  var monto_decimal = monto.toFixed(2);
   glob_id_empleado = id_empleado
   glob_nombre = nombre;
-  glob_monto = monto;
+  glob_monto = monto_decimal;
   glob_monto_Q = montoEnLetras;
   glob_fecha = fecha;
   glob_fecha_footer = fecha_footer;
 
   $(function(){
     $("#fecha").text('Quetzaltenango, '+ fecha+ '.----');
-    $("#monto").text('Q.'+monto);
+    $("#monto").text('Q.'+monto_decimal);
     $("#nombre").text(nombre);
     $("#monto_letras").text(montoEnLetras);
   });
@@ -336,15 +313,15 @@ function datos_empleado(nombre,monto,montoEnLetras,id_empleado){
 //function imprimir------------------------------
     function imprimir(){
     var head = '<div style="margin-left: 114px;margin-bottom: 17px;"><b>NO NEGOCIABLE</b></div>'
-    var fecha = '<div style="float:left;margin-bottom: 8px;margin-right: 120px;">Quetzaltenango, '+ glob_fecha +'.----</div>';
-    var monto = '<div style="margin-bottom: 8px;">'+glob_monto+'</div>'
+    var fecha = '<div style="float:left;margin-bottom: 7px;margin-right: 160px;">Quetzaltenango, '+ glob_fecha +'.----</div>';
+    var monto = '<div style="margin-bottom: 7px;">'+glob_monto+'</div>'
     var nombre = '<div style="margin-bottom: 8px;"><b>'+glob_nombre+'</b></div>';
     var monto_letras = '<div style="margin-bottom: 8px;">'+glob_monto_Q+'</div>';
-    var footer = '<div style="font-size: 12px;padding-left: 39px;padding-top: 4px;">bono de </div>'
-    var footer_2 = '<div style="font-size: 12px;padding-left: 30px;">'+glob_fecha_footer+'</div>'
+    var footer = '<div style="font-size: 12px;padding-left: 52px;padding-top: 10px;">bono de </div>'
+    var footer_2 = '<div style="font-size: 12px;padding-left: 42px;margin-top: -2px;">'+glob_fecha_footer+'</div>'
 
     var pw = window.open('', '', 'height=400,width=800');
-    pw.document.write('<head>' +head+ '</head><body style="margin-left: 150px;margin-top: 50px;">');
+    pw.document.write('<head>' +head+ '</head><body style="margin-left: 170px;margin-top: 27px;">');
     pw.document.write(fecha);
     pw.document.write(monto);
     pw.document.write(nombre);
@@ -353,7 +330,7 @@ function datos_empleado(nombre,monto,montoEnLetras,id_empleado){
     pw.document.write(footer_2);
     pw.document.write('</body>');
     console.log('imprimir')
-  //  pw.print();
+    pw.print();
     pw.close();
     //guarda el cheque se recien se imprimio
   var request = $.ajax({
@@ -387,7 +364,7 @@ function rango(){
   $nombre[] = $key->nombre;
   $monto[] = $key->monto;
   $monto_letras[] = $key->monto_letras;
-	$id_empleado[] = $key->id_Empleado;
+  $id_empleado[] = $key->id_Empleado;
  }
 
  $nombreJson = json_encode($nombre);
@@ -406,20 +383,22 @@ function imprimirLote(){
   var f=new Date();
   var fecha = f.getDate() + " de " + meses[f.getMonth()] +' '+ f.getFullYear();
   var fecha_footer = meses[f.getMonth()] +' '+ f.getFullYear();//obtiene la fecha para imprimirlo
+  var head = '<div style="margin-left: 114px;margin-bottom: 17px;"><b>NO NEGOCIABLE</b></div>'
+  var fecha = '<div style="float:left;margin-bottom: 7px;margin-right: 160px;">Quetzaltenango, '+ fecha +'.----</div>';
+  var footer = '<div style="font-size: 12px;padding-left: 52px;padding-top: 10px;">bono de </div>'
 
 
   for(var i=0;i<nombreJS.length;i++)
   {
-    var head = '<div style="margin-left: 114px;margin-bottom: 17px;"><b>NO NEGOCIABLE</b></div>'
-    var fecha = '<div style="float:left;margin-bottom: 8px;margin-right: 120px;">Quetzaltenango, '+ fecha +'.----</div>';
-    var monto = '<div style="margin-bottom: 8px;">'+montoJS[i]+'</div>'
+    var monto = parseInt(montoJS[i]);
+    var monto_decimal = monto.toFixed(2);
+    var monto = '<div style="margin-bottom: 8px;">'+monto_decimal+'</div>'
     var nombre = '<div style="margin-bottom: 8px;"><b>'+nombreJS[i]+'</b></div>';
     var monto_letras = '<div style="margin-bottom: 8px;">'+monto_letrasJS[i]+'</div>';
-    var footer = '<div style="font-size: 12px;padding-left: 39px;padding-top: 4px;">bono de </div>'
-    var footer_2 = '<div style="font-size: 12px;padding-left: 30px;">'+fecha_footer+'</div>'
+    var footer_2 = '<div style="font-size: 12px;padding-left: 42px;margin-top: -2px;">'+fecha_footer+'</div>'
 
     var pw = window.open('', '', 'height=400,width=800');
-    pw.document.write('<head>' +head+ '</head><body style="margin-left: 150px;margin-top: 50px;">');
+    pw.document.write('<head>' +head+ '</head><body style="margin-left: 170px;margin-top: 27px;">');
     pw.document.write(fecha);
     pw.document.write(monto);
     pw.document.write(nombre);
@@ -428,9 +407,9 @@ function imprimirLote(){
     pw.document.write(footer_2);
     pw.document.write('</body>');
     console.log('imprimir')
-    //pw.print();
+    pw.print();
     pw.close();
-    //guarda el cheque se recien se imprimio
+    // //guarda el cheque se recien se imprimio
     var request = $.ajax({
       method: "POST",
       url: "<?=$base_url?>/Main/guardarcheque",
