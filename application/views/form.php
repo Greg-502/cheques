@@ -52,8 +52,8 @@
         </div>
         <div class="col-2">
           <!--btn para imprimir por lote-->
-          <?php if ($numeral == 4): ?>
-            <button onclick="imprimirLote()" class="btn btn-primary hvr-icon-fade pisto">Imprimir</button>
+          <?php if ($numeral == 4 and !empty($empleados)): ?>
+              <button onclick="imprimirLote()" class="btn btn-primary hvr-icon-fade pisto">Imprimir</button>
           <?php endif; ?>
           <!--Fin-->
         </div>
@@ -252,7 +252,7 @@ $(document).ready(function() {
 
     var fila;
     $(document).on("click", ".EditBTN", function(){
-      
+
       fila = $(this).closest("tr");
       id = parseInt(fila.find('td:eq(0)').text());
       nombre = fila.find('td:eq(1)').text();
@@ -265,7 +265,6 @@ $(document).ready(function() {
       $("#cargo_residente").val(cargo_id);
       $("#editaResidente").modal("show");
     });
-} );
 
 //funcion dar de baja------------------------
   var DarBaja = function(id_empleado,status) {
@@ -337,7 +336,9 @@ function datos_empleado(nombre,monto,montoEnLetras,id_empleado){
     method: "POST",
     url: "<?=$base_url?>/Main/guardarcheque",
     data: {
-      id: glob_id_empleado
+      id: glob_id_empleado,
+      monto: glob_monto,
+      monto_letras: glob_monto_Q
     }
   });
   request.done(function(resultado) {
