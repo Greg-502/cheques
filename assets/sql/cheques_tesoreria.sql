@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-02-2020 a las 23:18:57
+-- Tiempo de generación: 28-02-2020 a las 20:22:29
 -- Versión del servidor: 10.4.6-MariaDB
 -- Versión de PHP: 7.3.9
 
@@ -25,15 +25,40 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `cargo`
+--
+
+CREATE TABLE `cargo` (
+  `id_cargo` bigint(11) NOT NULL,
+  `cargo` varchar(25) COLLATE latin1_bin NOT NULL,
+  `monto` decimal(10,2) NOT NULL,
+  `monto_letras` varchar(100) COLLATE latin1_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+
+--
+-- Volcado de datos para la tabla `cargo`
+--
+
+INSERT INTO `cargo` (`id_cargo`, `cargo`, `monto`, `monto_letras`) VALUES
+(1, 'Residente I', '500.00', 'Quinientos cincuenta quetzales exactos'),
+(2, 'Residente II', '500.00', 'Quinientos quetzales exactos'),
+(3, 'Residente III', '500.00', 'Quinientos quetzales exactos'),
+(4, 'Residente IV', '500.00', 'Quinientos quetzales exactos'),
+(5, 'Residentes (Jefe)', '3500.00', 'Tres mil quinientos quetzales exactos');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `cheque`
 --
 
 CREATE TABLE `cheque` (
   `id_cheque` bigint(20) NOT NULL,
   `fecha` datetime NOT NULL DEFAULT current_timestamp(),
-  `id_monto` bigint(20) NOT NULL,
+  `monto` decimal(10,2) NOT NULL,
+  `monto_letras` varchar(100) COLLATE latin1_bin NOT NULL,
   `id_empleado` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 -- --------------------------------------------------------
 
@@ -43,33 +68,27 @@ CREATE TABLE `cheque` (
 
 CREATE TABLE `empleado` (
   `id_Empleado` bigint(20) NOT NULL,
-  `nombre` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 1,
-  `nit` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `monto`
---
-
-CREATE TABLE `monto` (
-  `id_monto` bigint(20) NOT NULL,
-  `monto` decimal(10,2) NOT NULL,
-  `monto_letras` varchar(100) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `nombre` varchar(100) COLLATE latin1_bin NOT NULL,
+  `status` bigint(20) NOT NULL,
+  `nit` varchar(20) COLLATE latin1_bin NOT NULL,
+  `id_cargo` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 --
 -- Índices para tablas volcadas
 --
 
 --
+-- Indices de la tabla `cargo`
+--
+ALTER TABLE `cargo`
+  ADD PRIMARY KEY (`id_cargo`);
+
+--
 -- Indices de la tabla `cheque`
 --
 ALTER TABLE `cheque`
   ADD PRIMARY KEY (`id_cheque`),
-  ADD KEY `id_monto` (`id_monto`),
   ADD KEY `id_empleado` (`id_empleado`);
 
 --
@@ -77,17 +96,17 @@ ALTER TABLE `cheque`
 --
 ALTER TABLE `empleado`
   ADD PRIMARY KEY (`id_Empleado`),
-  ADD UNIQUE KEY `dpi` (`nit`);
-
---
--- Indices de la tabla `monto`
---
-ALTER TABLE `monto`
-  ADD PRIMARY KEY (`id_monto`);
+  ADD KEY `id_monto` (`id_cargo`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `cargo`
+--
+ALTER TABLE `cargo`
+  MODIFY `id_cargo` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `cheque`
@@ -99,13 +118,7 @@ ALTER TABLE `cheque`
 -- AUTO_INCREMENT de la tabla `empleado`
 --
 ALTER TABLE `empleado`
-  MODIFY `id_Empleado` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT de la tabla `monto`
---
-ALTER TABLE `monto`
-  MODIFY `id_monto` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_Empleado` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
@@ -115,8 +128,13 @@ ALTER TABLE `monto`
 -- Filtros para la tabla `cheque`
 --
 ALTER TABLE `cheque`
-  ADD CONSTRAINT `cheque_ibfk_1` FOREIGN KEY (`id_monto`) REFERENCES `monto` (`id_monto`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `cheque_ibfk_2` FOREIGN KEY (`id_empleado`) REFERENCES `empleado` (`id_Empleado`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `cheque_ibfk_1` FOREIGN KEY (`id_empleado`) REFERENCES `empleado` (`id_Empleado`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `empleado`
+--
+ALTER TABLE `empleado`
+  ADD CONSTRAINT `empleado_ibfk_1` FOREIGN KEY (`id_cargo`) REFERENCES `cargo` (`id_cargo`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
