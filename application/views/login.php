@@ -19,7 +19,7 @@
 
 <body class="text-center">
     <form method="POST" class="form-signin" action="<?php echo base_url();?>Auth/login" autocomplete="off">
-      <img class="mb-3" src="<?php echo base_url(); ?>assets/image/gt.jpg" alt="" width="82" height="82">
+      <img class="mb-3" src="<?php echo base_url(); ?>assets/image/gt_.png" alt="" width="82" height="82">
       <h3 class="mb-3" style="font-family: 'Lobster', normal;">Inicio de Sesión</h3>
 
       <!--muestra error-->
