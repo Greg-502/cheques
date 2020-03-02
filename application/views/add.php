@@ -12,6 +12,7 @@
 <div class="container">
     <div class="row">
       <div class="col-md-12">
+        <small>Añadir</small>
         <h4 style="font-weight: bold">Residentes</h4>
       </div>
     </div>
@@ -47,6 +48,7 @@
 
 	<div class="row">
       <div class="col-md-12">
+        <small>Actualizar</small>
         <h4 style="font-weight: bold">Bonos</h4>
       </div>
     </div>
@@ -63,7 +65,7 @@
                   ?>
                  </select>
             </div>
-        
+
           <div id="cantidad" class="col-md-3 mb-3">
                 <div class="input-group">
                     <div class="input-group-prepend">
@@ -95,7 +97,7 @@ $(document).ready(function(){
           .replace(/([0-9])([0-9]{2})$/, '$1.$2');
       });
     }
-  }); 
+  });
 
   $('#cargo').change(function(){
     var cargo_re = $('#cargo').val();
