@@ -2,8 +2,11 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Main extends CI_Controller {
-	function __construct(){
+	public function __construct(){
 		parent::__construct();
+		if (!$this->session->userdata("login")) {
+			redirect(base_url());
+		}
 		$this->load->helper('url');
 		$this->load->model('empleado_model');
 
@@ -72,8 +75,9 @@ class Main extends CI_Controller {
 		$id_empleado = $_POST['id'];
 		$monto = $_POST['monto'];
 		$monto_letras = $_POST['monto_letras'];
+		$id_admin = $this->session->userdata("id_admin");
 
-			$this->empleado_model->guardarCheque($id_empleado,$monto,$monto_letras);
+			$this->empleado_model->guardarCheque($id_empleado,$monto,$monto_letras, $id_admin);
 			echo "Guardado exitosamente";
 	}
 

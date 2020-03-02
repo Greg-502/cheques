@@ -4,6 +4,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class XLote extends CI_Controller {
 	function __construct(){
 		parent::__construct();
+		if (!$this->session->userdata("login")) {
+			redirect(base_url());
+		}
 		$this->load->helper('url');
 		$this->load->model('LotesModel');
 	}

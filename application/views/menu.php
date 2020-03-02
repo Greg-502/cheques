@@ -47,6 +47,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <li class="nav-item">
           <a class="nav-link" href="<?php echo base_url(); ?>Disable">Bajas</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<?php echo base_url(); ?>Auth/logout">Salir</a>
+        </li>
       </ul>
 
     </div>

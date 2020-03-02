@@ -4,6 +4,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Edit extends CI_Controller {
 	function __construct(){
 		parent::__construct();
+		if (!$this->session->userdata("login")) {
+			redirect(base_url());
+		}
 		$this->load->helper('url');
 	}
 
@@ -11,7 +14,7 @@ class Edit extends CI_Controller {
 		$this->load->model("empleado_model");
 
 		$id = $_POST['idRe'];
-		
+
 		$data = array(
 			'nombre' => $_POST['nombreRE'],
 			'nit' => $_POST['nitRE'],
@@ -24,6 +27,6 @@ class Edit extends CI_Controller {
 		} else {
 			redirect(base_url()."Add/error");
 		}
-		
+
 	}
 }

@@ -125,10 +125,10 @@
       </div>
       <div class="modal-body">
         <div class="row">
-            <div class="col-10">
+            <div class="col-9">
               <p id="fecha"></p>
             </div>
-            <div class="col-2">
+            <div style="text-align: right" class="col-3">
               <p id="monto"></p>
             </div>
         </div>
