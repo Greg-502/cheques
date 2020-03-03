@@ -68,6 +68,7 @@
           </thead>
           <tbody>
             <?php  if(!empty($empleados)):?>
+
           <?php  foreach($empleados as $xRenglon):?>
               <?php //controla el estado de los botones
               $classButton = "";
@@ -83,9 +84,10 @@
                 $buttonsStatus = 'disabled';
               }//----------------------
               ?>
-                <tr>
+                <tr id="fila<?=$xRenglon->id_Empleado?>">
                   <td><?php echo $xRenglon->cargo; ?></td>
                     <td><?php echo $xRenglon->id_Empleado?></td>
+                    <input type="hidden" id="status<?=$xRenglon->id_Empleado?>" value="<?=$xRenglon->status?>">
                     <td><a style="color: black; text-decoration: none;" href="<?php base_url();?>Historial/index/<?php echo $xRenglon->id_Empleado;?>"><?php echo $xRenglon->nombre;?></a></td>
                     <td><?php echo $xRenglon->nit;?></td>
                     <td style="display: none;"><?php echo $xRenglon->id_cargo;?></td>
@@ -93,13 +95,13 @@
                     <td class="text-center">
                       <button type="button" <?=$buttonsStatus?> onclick="datos_empleado('<?php echo $xRenglon->nombre?>',<?=$xRenglon->monto?>,'<?=$xRenglon->monto_letras?>',<?=$xRenglon->id_Empleado?>)" data-toggle="modal" data-target="#imprimir" data-whatever="@mdo" class="btn btn-primary"><i class="fas fa-print"></i></button>
                       <button type="button" <?=$buttonsStatus?> class="btn btn-success EditBTN"><i class="fas fa-user-edit"></i></button>
-                      <button id="baja" type="button" onclick="DarBaja(<?php echo $xRenglon->id_Empleado.','.$xRenglon->status?>)" <?=$classButton?>>
+                      <button id="baja" type="button" <?=$classButton?>>
                         <i id="icon" <?=$classIcon?>></i>
                       </button>
                     </td>
-                  <?php } ?>
+                  <?php };?>
                 </tr>
-              <?php  endforeach;?>
+              <?php endforeach;?>
           <?php  endif;?>
 
           </tbody>
@@ -263,27 +265,27 @@ $(document).ready(function() {
   });
 
 //funcion dar de baja------------------------
-  var DarBaja = function(id_empleado,status) {
-//busca en la BD el estatus del empleado
-
-    var request = $.ajax({
-      method: "POST",
-      url: "<?=$base_url?>/Main/cambiarStatus",
-      data: {
-        id: id_empleado,
-        status: status
-      }
-    });
-    request.done(function(resultado) {
-        if (status == "1") {
-          //swal.fire(resultado);
-          location.reload();
-        }else if (status == "0") {
-          //swal.fire(resultado);
-          location.reload();
+  var fila;
+  $(document).on("click", "#baja", function(){
+      fila = $(this);
+      id = parseInt($(this).closest("tr").find('td:eq(0)').text());
+      var status = $("#status"+id).val()
+      debugger
+      console.log(status)
+      var request = $.ajax({
+        method: "POST",
+        url: "<?=$base_url?>/Main/cambiarStatus",
+        data: {
+          id: id,
+          status: status
         }
-    });
-  }
+      });
+      request.done(function(resultado) {
+       //example.row(fila.parents('tr')).remove()
+        $("#fila"+id).remove();
+
+      });
+  });
 //funcion obtener datos del empleado----------------------------
 function datos_empleado(nombre,monto,montoEnLetras,id_empleado){
   var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
