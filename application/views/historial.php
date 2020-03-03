@@ -20,7 +20,7 @@
           $fecha = new DateTime($key->fecha);
           ?>
             <div class="col-12">
-              <p class="text-primary">Quetzaltenango <?php echo $fecha->format('d-m-Y H:m:s')?></p>
+              <p class="text-primary">Quetzaltenango <?php echo $fecha->format('d-m-Y H:i:s')?></p>
               <p style="margin-top: -15px;"><?php echo $key->nombre?></p>
               <p style="margin-top: -15px"><?php echo "Q ".$key->monto." - ".$key->monto_letras; ?></p>
               <p style="margin-top: -15px; font-weight: bold">Pagado por: <?php echo $key->admin?></p>
