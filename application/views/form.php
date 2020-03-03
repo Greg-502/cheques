@@ -264,29 +264,44 @@ $(document).ready(function() {
     });
   });
 
-//funcion dar de baja------------------------
-  var fila;
-  $(document).on("click", "#baja", function(){
-      fila = $(this);
-      id = parseInt($(this).closest("tr").find('td:eq(0)').text());
-      var status = $("#status"+id).val()
-      debugger
-      console.log(status)
-      var request = $.ajax({
-        method: "POST",
-        url: "<?=$base_url?>/Main/cambiarStatus",
-        data: {
-          id: id,
-          status: status
-        }
-      });
-      request.done(function(resultado) {
-       //example.row(fila.parents('tr')).remove()
-        $("#fila"+id).remove();
+  //funcion dar de baja------------------------
+    var fila;
+    $(document).on("click", "#baja", function(){
+        fila = $(this);
+        id = parseInt($(this).closest("tr").find('td:eq(0)').text());
 
-      });
-  });
-//funcion obtener datos del empleado----------------------------
+      Swal.fire({
+        title: '¿Realizar cambio?',
+        text: "Puede revertir esta acción posteriormente",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Aceptar'
+      }).then((result) => {
+      if (result.value) {
+        var status = $("#status"+id).val()
+        var request = $.ajax({
+          method: "POST",
+          url: "<?=$base_url?>/Main/cambiarStatus",
+          data: {
+            id: id,
+            status: status
+          }
+        });
+        request.done(function(resultado) {
+          $("#fila"+id).remove();
+        });
+        Swal.fire(
+          'Hecho!',
+          'El cambio ha sido realizado.',
+          'success'
+        )
+      }
+    })
+    });
+    //funcion obtener datos del empleado----------------------------
 function datos_empleado(nombre,monto,montoEnLetras,id_empleado){
   var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
   var f=new Date();
