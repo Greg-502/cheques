@@ -55,9 +55,9 @@ class Add extends CI_Controller {
 		    'monto_letras' => $this->input->post("letras")
 		);
 		if ($this->AddModel->updateCargo($data,$id_cargo)) {
-			redirect(base_url()."Add");
+			echo "1";
 		} else {
-			redirect(base_url()."Add/error");
+			echo "0";
 		}
 	}
 
@@ -76,9 +76,11 @@ class Add extends CI_Controller {
 			);
 
 			if ($this->AddModel->insertResidente($data)) {
-				redirect(base_url());
+	//			redirect(base_url());
+					echo "1";
 			} else {
-				redirect(base_url()."Add/error");
+	//			redirect(base_url()."Add/error");
+					echo "0";
 			}
 		}
 	}

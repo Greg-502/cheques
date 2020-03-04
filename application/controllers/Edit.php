@@ -23,9 +23,9 @@ class Edit extends CI_Controller {
 
 		$datos = $this->empleado_model->update_residente($id, $data);
 		if ($datos) {
-			redirect(base_url());
+			echo "1";
 		} else {
-			redirect(base_url()."Add/error");
+			echo "0";
 		}
 
 	}
