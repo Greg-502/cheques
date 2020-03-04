@@ -16,7 +16,7 @@
         <h4 style="font-weight: bold">Residentes</h4>
       </div>
     </div>
-    <form method="POST" action="<?php echo base_url();?>Add/residente" autocomplete="off">
+    <form id="residenteForm">
       <div class="form-row">
         <div class="col-md-3 mb-3">
                 <select id="depto" name="cargo" class="custom-select" required>
@@ -30,16 +30,16 @@
                  </select>
             </div>
           <div class="col-md-3 mb-3">
-               <input class="form-control" type="text" placeholder="NIT" name="nit" required onkeyup="mayus(this);">
+               <input id="nit" class="form-control" type="text" placeholder="NIT" name="nit" required onkeyup="mayus(this);">
           </div>
           <div class="col-md-4 mb-3">
-               <input class="form-control" type="text" placeholder="Nombres y Apellidos" name="nombres" required>
+               <input id="nombres" class="form-control" type="text" placeholder="Nombres y Apellidos" name="nombres" required>
           </div>
       </div>
+    </form>
       <div class="row col-2 mb-3">
-              <button type="submit" class="btn btn-primary hvr-icon-fade">Guardar</button>
+              <button  id="guardarResidente" class="btn btn-primary hvr-icon-fade">Guardar</button>
           </div>
-	</form>
 	<br>
 
 	<hr class="my-3">
@@ -52,7 +52,7 @@
         <h4 style="font-weight: bold">Bonos</h4>
       </div>
     </div>
-    <form method="POST" action="<?php echo base_url();?>Add/monto" autocomplete="off">
+    <form id="ActualizarBonoForm">
       <div class="form-row">
         <div class="col-md-3 mb-3">
                 <select id="cargo" name="cargo" class="custom-select" required>
@@ -79,10 +79,10 @@
             <input id="inLetras" class="form-control" type="text" placeholder="En letras" name="letras" required>
         </div>
       </div>
+    </form>
       <div class="row col-md-1 mb-3">
-            <button type="submit" class="btn btn-primary hvr-icon-fade">Guardar</button>
-       </div>
-	</form>
+            <button id="ActualizarBono" class="btn btn-primary hvr-icon-fade">Guardar</button>
+      </div>
 </div>
 
 <script>
@@ -132,5 +132,71 @@ $(document).ready(function(){
       $("#inLetras").val("En letras");
     }
   });
+});
+
+//-------------------Crear residente-------
+$(document).on("click", "#guardarResidente", function(){
+
+    var id_depto = $("#depto").val()
+    var nit = $("#nit").val()
+    var nombres = $("#nombres").val()
+    var request = $.ajax({
+      method: "POST",
+      url: "<?php echo base_url();?>Add/residente",
+      data: {
+        nombres: nombres,
+        nit: nit,
+        cargo: id_depto
+      }
+    });
+    request.done(function(resultado) {
+      if (resultado == "1") {
+        Swal.fire(
+          'Excelente!',
+          '¡Los datos fueron ingresados exitosamente!',
+          'success'
+        )
+       $("#residenteForm")[0].reset();
+      }else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'El número de nit está duplicado!'
+        })
+      }
+    });
+});
+
+//-------------------Actualizar bono-------
+$(document).on("click", "#ActualizarBono", function(){
+
+    var monto = $("#monto").val()
+    var enLetras = $("#inLetras").val()
+    var cargo = $("#cargo").val()
+    var request = $.ajax({
+      method: "POST",
+      url: "<?php echo base_url();?>Add/monto",
+      data: {
+        cargo: cargo,
+        monto: monto,
+        letras: enLetras
+      }
+    });
+    request.done(function(resultado) {
+      if (resultado == "1") {
+        Swal.fire(
+          'Excelente!',
+          '¡Los datos fueron actualizados exitosamente!',
+          'success'
+        )
+       $("#ActualizarBonoForm")[0].reset();
+      }else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Algo salió mal!'
+        })
+      }
+    });
 });
 </script>

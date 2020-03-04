@@ -165,7 +165,7 @@
       </div>
       <div class="modal-body">
 
-        <form autocomplete="off" id="formResidente" method="POST" action="<?php echo base_url();?>Edit/residente">
+        <form autocomplete="off" id="formResidenteEdit" method="POST" action="<?php echo base_url();?>Edit/residente">
         <div class="form-row">
           <div class="col-12 mb-3">
                <input type="hidden" id="idRe" name="idRe">
@@ -189,10 +189,10 @@
             </div>
       </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal" style="color:white;">Cerrar</button>
-          <button class='btn btn-primary btnEditar'>Editar</button>
-        </div>
         </form>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" style="color:white;">Cerrar</button>
+          <button type="button" class='btn btn-primary btnEditar'>Editar</button>
+        </div>
       </div>
     </div>
   </div>
@@ -260,9 +260,54 @@ $(document).ready(function() {
       $("#nombreRE").val(nombre);
       $("#nitRE").val(nit);
       $("#cargo_residente").val(cargo_id);
+      $("#filaRE").val(fila);
       $("#editaResidente").modal("show");
     });
   });
+//funcion editar-------------------------------
+$(document).on("click", ".btnEditar", function(){
+    var idRe = parseInt($("#idRe").val())
+    var nombre = $("#nombreRE").val()
+    var nit = $("#nitRE").val()
+    var id_cargo = $("#cargo_residente").val()
+    var fila = $("#fila"+idRe).closest("tr");
+    var cargo_id_table = parseInt(fila.find('td:eq(3)').text());//variable que servirá para comparar si hubo cambio en cargo
+
+    var request = $.ajax({
+      method: "POST",
+      url: "<?php echo base_url();?>Edit/residente",
+      data: {
+        idRe: idRe,
+        nombreRE: nombre,
+        nitRE: nit,
+        cargoRE: id_cargo
+      }
+    });
+    request.done(function(resultado) {
+      if (resultado == "1") {
+        if (id_cargo == cargo_id_table) {
+          Swal.fire(
+            'Excelente!',
+            '¡Los datos fueron editados exitosamente!',
+            'success'
+          )
+          fila.find('td:eq(2)').text(nit)
+          fila.find('a:eq(0)').text(nombre)
+          $("#editaResidente").modal("hide");
+          $('#fila'+idRe).addClass('alert alert-primary')
+          $(setTimeout(function(){$('#fila'+idRe).removeClass('alert alert-primary')},7000))
+        }else {
+          location.reload();
+        }
+      }else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Ha ocurrido un error!'
+        })
+      }
+    });
+});
 
   //funcion dar de baja------------------------
     var fila;
@@ -360,11 +405,9 @@ function datos_empleado(nombre,monto,montoEnLetras,id_empleado){
 }
 //function seleccionar rango----------------------------
 function rango(){
-//  debugger
   var desde = $("#rangoDesde").val();
   var desde_int = parseInt(desde,10)
   desde_int += 1;
-  //console.log(desde)
   $("#rangoHasta").attr('min',desde_int).attr('value', desde_int).attr('max', desde_int + 8);
 }
 //funcion imprimir por rangos---------------------------
