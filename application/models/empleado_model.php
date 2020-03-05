@@ -54,11 +54,11 @@ class Empleado_model extends CI_Model{
 		$this->db->insert('cheque', $data);
 	}
 
-	function listarImpresion($from, $to)
+	function listarImpresion($listar)
 	{
 		$this->db->select("*");
 		$this->db->join('cargo', 'cargo.id_cargo = empleado.id_cargo');
-		$this->db->where("(id_Empleado BETWEEN $from AND $to) AND status = 1");
+		$this->db->where("cargo.id_cargo = $listar");
 		$query = $this->db->get("empleado");
 		return $query->result();
 	}

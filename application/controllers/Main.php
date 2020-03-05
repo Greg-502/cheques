@@ -84,14 +84,12 @@ class Main extends CI_Controller {
 	public function 	listarImpresion(){
 		$data['base_url'] = $this->config->item('base_url');
 
-		$from = "";
-		$to = "";
+		$listar = "";
 		if ($this->input->post('imprimir') == 'imprimir') {
-			$from = $_POST['from'];
-			$to = $_POST['to'];
+			$listar = $_POST['listarCargo'];
 			$validador = 4;
 			$data['numeral'] = $validador;
-			$data['empleados'] = $this->empleado_model->listarImpresion($from, $to);
+			$data['empleados'] = $this->empleado_model->listarImpresion($listar);
 
 			$this->load->view('menu');
 			$this->load->view('form',$data);
