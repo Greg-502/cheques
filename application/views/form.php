@@ -22,7 +22,7 @@
   <div class="row">
     <div class="col-md-12">
       <?php if ($numeral == 3  ) {?>
-        <h4 style="font-weight: bold">filtrar por..</h4>
+        <h4 style="font-weight: bold">Filtrar por..</h4>
         <form method="POST" action="<?php echo base_url();?>Main/listarImpresion" autocomplete="off">
         <div class="form-row">
           <div class="col-md-2 mb-3">
@@ -44,13 +44,14 @@
         <hr class="my-4">
       <?php    } ?>
       <div class="row">
-        <div class="col-10">
+        <div class="col-9">
           <h4 style="font-weight: bold;">Listado</h4>
         </div>
-        <div class="col-2">
+        <div class="col-3">
           <!--btn para imprimir por lote-->
           <?php if ($numeral == 4 and !empty($empleados)): ?>
               <button style="float: right;" onclick="imprimirLote()" class="btn btn-primary hvr-icon-fade pisto">Imprimir</button>
+              <button style="float: right;" onclick="nomina('<?php echo $listar?>')" class="btn btn-outline-success pisto mr-2">Nomina PDF</button>
           <?php endif; ?>
           <!--Fin-->
         </div>
@@ -486,5 +487,10 @@ function imprimirLote(){
       console.log(resultado)
     });
   }
+}
+
+function nomina(nomina){
+  var nomina = nomina;
+  window.open('<?=$base_url?>Nomina/pdf/'+nomina);
 }
 </script>

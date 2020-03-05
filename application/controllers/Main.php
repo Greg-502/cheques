@@ -88,6 +88,7 @@ class Main extends CI_Controller {
 		if ($this->input->post('imprimir') == 'imprimir') {
 			$listar = $_POST['listarCargo'];
 			$validador = 4;
+			$data['listar'] = $listar;
 			$data['numeral'] = $validador;
 			$data['empleados'] = $this->empleado_model->listarImpresion($listar);
 
