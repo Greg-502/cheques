@@ -23,3 +23,6 @@ Impresion de cheques mensuales
   	3. Margen derecho 10mm
   	4. Margen superior 5mm
   	5. Margen inferior 10mm
+
+# Imprimir nomina
+	1. En propiedades de impresora seleccionar Carta y Horizontal
