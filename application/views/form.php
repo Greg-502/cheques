@@ -22,20 +22,22 @@
   <div class="row">
     <div class="col-md-12">
       <?php if ($numeral == 3  ) {?>
-        <h4 style="font-weight: bold">Impresión</h4>
+        <h4 style="font-weight: bold">filtrar por..</h4>
         <form method="POST" action="<?php echo base_url();?>Main/listarImpresion" autocomplete="off">
         <div class="form-row">
-        <div class="col-md-2 mb-3">
-        <input id="rangoDesde" onchange="rango()" class="form-control" type="number" min="1" placeholder="Desde" name="from" required minlength="5" value="1">
-        </div>
-
-        <div class="col-md-2 mb-3">
-        <input id="rangoHasta" class="form-control" type="number" min="1" max="10" name="to" required minlength="5" value="1">
-        </div>
-
-        <div class="col-md-2">
-        <input class="btn btn-primary hvr-icon-fade"  role="button" id="continuar" type="submit" name="imprimir" value="imprimir">
-        </div>
+          <div class="col-md-2 mb-3">
+            <select name="listarCargo" class="custom-select" required>
+              <option value="">Cargo</option>
+              <option value="1">Residente I</option>
+              <option value="2">Residente II</option>
+              <option value="3">Residente III</option>
+              <option value="4">Residente IV</option>
+              <option value="5">Residente EPS</option>
+             </select>
+          </div>
+          <div class="col-md-2">
+            <input class="btn btn-primary hvr-icon-fade"  role="button" type="submit" name="imprimir" value="imprimir">
+          </div>
         </form>
 
         <div class="col-md-12">
@@ -84,7 +86,7 @@
                 $buttonsStatus = 'disabled';
               }//----------------------
               ?>
-                <tr id="fila<?=$xRenglon->id_Empleado?>">
+                <tr id="fila<?=$xRenglon->id_Empleado?>"><!--concatena para tener filas unicas-->
                   <td><?php echo $xRenglon->cargo; ?></td>
                     <td><?php echo $xRenglon->id_Empleado?></td>
                     <input type="hidden" id="status<?=$xRenglon->id_Empleado?>" value="<?=$xRenglon->status?>">
@@ -106,9 +108,9 @@
 
           </tbody>
         </table>
+      </div>
     </div>
-    </div>
-    </div>
+  </div>
 </div>
 
 
@@ -351,7 +353,9 @@ function datos_empleado(nombre,monto,montoEnLetras,id_empleado){
   var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
   var f=new Date();
   var fecha = f.getDate() + " de " + meses[f.getMonth()] +' '+ f.getFullYear();
-  var fecha_footer = meses[f.getMonth()] +' '+ f.getFullYear();//obtiene la fecha para imprimirlo
+  var mes_foter = f.getMonth()  //obtiene el mes para luego restarlo
+  mes_foter == 0 ? mes_foter = 11 : mes_foter= mes_foter - 1;//operacion terniaria para el mes de Diciembre
+  var fecha_footer = meses[mes_foter] +' '+ f.getFullYear();//obtiene la fecha para imprimirlo
   var monto_decimal = monto.toFixed(2);
   glob_id_empleado = id_empleado
   glob_nombre = nombre;
@@ -387,8 +391,8 @@ function datos_empleado(nombre,monto,montoEnLetras,id_empleado){
     pw.document.write(footer_2);
     pw.document.write('</body>');
     console.log('imprimir')
-    pw.print();
-    pw.close();
+  //  pw.print();
+//    pw.close();
     //guarda el cheque se recien se imprimio
   var request = $.ajax({
     method: "POST",
@@ -438,8 +442,10 @@ function imprimirLote(){
 
   var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
   var f=new Date();
-  var fecha = f.getDate() + " de " + meses[f.getMonth()] +' '+ f.getFullYear();
-  var fecha_footer = meses[f.getMonth()] +' '+ f.getFullYear();//obtiene la fecha para imprimirlo
+  var mes_foter = f.getMonth()  //obtiene el mes para luego restarlo
+  mes_foter == 0 ? mes_foter = 11 : mes_foter= mes_foter - 1;//operacion terniaria para el mes de Diciembre
+  var fecha = f.getDate() + " de " + meses[mes_foter] +' '+ f.getFullYear();
+  var fecha_footer = meses[mes_foter] +' '+ f.getFullYear();//obtiene la fecha para imprimirlo en la Ref: en la parte inferior izquierda
   var head = '<div style="margin-left: 114px;margin-bottom: 17px;"><b>NO NEGOCIABLE</b></div>'
   var fecha = '<div style="float:left;margin-bottom: 7px;margin-right: 160px;">Quetzaltenango, '+ fecha +'.----</div>';
   var footer = '<div style="font-size: 12px;padding-left: 52px;padding-top: 10px;">bono de </div>'
@@ -464,8 +470,8 @@ function imprimirLote(){
     pw.document.write(footer_2);
     pw.document.write('</body>');
     console.log('imprimir')
-    pw.print();
-    pw.close();
+//    pw.print();
+//    pw.close();
     // //guarda el cheque se recien se imprimio
     var request = $.ajax({
       method: "POST",
