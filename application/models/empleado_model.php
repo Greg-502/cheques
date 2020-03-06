@@ -59,6 +59,7 @@ class Empleado_model extends CI_Model{
 		$this->db->select("*");
 		$this->db->join('cargo', 'cargo.id_cargo = empleado.id_cargo');
 		$this->db->where("cargo.id_cargo = $listar");
+		$this->db->where("empleado.status", 1);
 		$query = $this->db->get("empleado");
 		return $query->result();
 	}

@@ -18,6 +18,7 @@ class Nomina extends CI_Controller {
 		if ($nomina > 5) {
 			redirect(base_url()."Xlote/code_5");
 		} else {
+
 			$data['empleados'] = $this->empleado_model->listarImpresion($nomina);
 			$contador = 1;
 
@@ -79,11 +80,11 @@ class Nomina extends CI_Controller {
 	        $this->pdf->Add_Page('L','Letter',0);
 	        $this->pdf->AliasNbPages();
 			$this->pdf->SetFont('Arial', '', 10);
-			
+			$this->pdf->SetTitle('Residentes');
 			$this->pdf->SetXY(135,17.5);
 			$this->pdf->Cell(40,10, ($current." ".$anio));
 
-			$this->pdf->SetXY(229,11);
+			$this->pdf->SetXY(229,10);
 			$this->pdf->SetFont('Arial', 'B', 16);
 			$this->pdf->MultiCell(40,8, utf8_decode($residente), 1, 'C');
 
@@ -109,7 +110,7 @@ class Nomina extends CI_Controller {
                 $this->pdf->Cell(80,15,utf8_decode($key->nombre),1);
                 $this->pdf->SetFont('Arial', '', 10);
                 $this->pdf->Cell(31,15,'',1);
-                $this->pdf->Cell(28,15,'Q       '.$key->monto,1,0,'C');
+                $this->pdf->Cell(28,15,'Q          '.$key->monto,1,0,'C');
                 $this->pdf->Cell(55,15,'',1);
                 $this->pdf->Cell(54,15,'',1);
                 $this->pdf->Ln();

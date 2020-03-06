@@ -1,27 +1,9 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-/**
-* Name:  Pdf.php
-*
-* Version: 1.0.0
-*
-* Author: Pedro Ruiz Hidalgo
-*		  ruizhidalgopedro@gmail.com
-*         @pedroruizhidalg
-*
-* Location: application/third_party/fpdf/libraries/Pdf.php
-*
-* Created:  2018-02-27
-*
-* Description:  This manages FPDF
-*
-* Requirements: PHP5 or above
-*
-*/
 define('FPDF_FONTPATH', __DIR__ . '/font');
 
 require_once __DIR__ . '/fpdf.php';
 
-class Renglones extends FPDF
+class renglones extends FPDF
 {
     protected $orientation;
     protected $size;
