@@ -30,6 +30,6 @@ Impresion de cheques mensuales
 # Error fpdf
  	error: set_magic_quotes_runtime() is deprecated
 	
-	acceder a la ruta "C:\xampp\htdocs\cheques\application\third_party\fpdf\libraries\fpdf.php" a la linea #1043 y agregar la siguiente linea de codigo "version_compare(PHP_VERSION, '5.3.0', '<')" dentro de la sentencia if
-	
-
+	acceder a la ruta "C:\xampp\htdocs\cheques\application\third_party\fpdf\libraries\fpdf.php" a la linea #1043 y agregar la siguiente linea de codigo "version_compare(PHP_VERSION, '5.3.0', '<')" dentro de la sentencia if.
+	Ref:
+[Srackoverfow](https://stackoverflow.com/questions/2217955/how-can-i-replace-the-deprecated-set-magic-quotes-runtime-in-php)
