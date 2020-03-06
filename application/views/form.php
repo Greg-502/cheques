@@ -343,7 +343,7 @@ $(document).on("click", ".btnEditar", function(){
             'success'
           )
           fila.find('td:eq(2)').text(nit)
-          fila.find('a:eq(0)').text(nombre)
+          fila.find('td:eq(1)').text(nombre)
           $("#editaResidente").modal("hide");
           $('#fila'+idRe).addClass('alert alert-primary')
           $(setTimeout(function(){$('#fila'+idRe).removeClass('alert alert-primary')},7000))
@@ -386,9 +386,14 @@ $(document).on("click", ".btnEditar", function(){
           }
         });
         request.done(function(resultado) {
-          $("#fila"+id).remove();
+          //$("#fila"+id).remove();
+          window.location.reload(true); 
         });
-        window.location.reload(true); 
+        /*Swal.fire(
+          'Hecho!',
+          'El cambio ha sido realizado.',
+          'success'
+        )*/
       }
     })
     });
