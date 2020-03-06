@@ -27,40 +27,52 @@ class Nomina extends CI_Controller {
 			$anio = date('Y');
 			if ($mes == 1) {
 				$current = 'ENERO';
-				$mensual = '001';
+				$nominaResidente = '001';
+				$nominaEPS = '002';
 			} elseif ($mes == 2) {
 				$current = 'FEBRERO';
-				$mensual = '002';
+				$nominaResidente = '003';
+				$nominaEPS = '004';
 			} elseif ($mes == 3) {
 				$current = 'MARZO';
-				$mensual = '003';
+				$nominaResidente = '005';
+				$nominaEPS = '006';
 			} elseif ($mes == 3) {
 				$current = 'ABRIL';
-				$mensual = '004';
+				$nominaResidente = '007';
+				$nominaEPS = '008';
 			} elseif ($mes == 3) {
 				$current = 'MAYO';
-				$mensual = '005';
+				$nominaResidente = '009';
+				$nominaEPS = '010';
 			} elseif ($mes == 3) {
 				$current = 'JUNIO';
-				$mensual = '006';
+				$nominaResidente = '011';
+				$nominaEPS = '012';
 			} elseif ($mes == 3) {
 				$current = 'JULIO';
-				$mensual = '007';
+				$nominaResidente = '013';
+				$nominaEPS = '014';
 			} elseif ($mes == 3) {
 				$current = 'AGOSTO';
-				$mensual = '008';
+				$nominaResidente = '015';
+				$nominaEPS = '016';
 			} elseif ($mes == 3) {
 				$current = 'SEPTIEMBRE';
-				$mensual = '009';
+				$nominaResidente = '017';
+				$nominaEPS = '018';
 			} elseif ($mes == 3) {
 				$current = 'OCTUBRE';
-				$mensual = '010';
+				$nominaResidente = '019';
+				$nominaEPS = '020';
 			} elseif ($mes == 3) {
 				$current = 'NOVIEMBRE';
-				$mensual = '011';
+				$nominaResidente = '021';
+				$nominaEPS = '022';
 			} elseif ($mes == 3) {
 				$current = 'DICIEMBRE';
-				$mensual = '012';
+				$nominaResidente = '023';
+				$nominaEPS = '024';
 			}
 
 			if ($nomina == 1) {
@@ -92,7 +104,12 @@ class Nomina extends CI_Controller {
 			$this->pdf->SetFont('Arial', '', 10);
 
 			//TABLA
-			$this->pdf->MultiCell(194,5,'NOMINAS No. '.$mensual);
+			if ($nomina == 5) {
+				$this->pdf->MultiCell(194,5,'NOMINAS No. '.$nominaEPS);
+			} else {
+				$this->pdf->MultiCell(194,5,'NOMINAS No. '.$nominaResidente);
+			}
+			
 			$this->pdf->Ln();
 			$this->pdf->SetFont('Arial', 'B', 10);
 	        $this->pdf->Cell(10,6,"NO.",1,0,'C');
