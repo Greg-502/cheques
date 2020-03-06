@@ -87,6 +87,7 @@ class Main extends CI_Controller {
 			$listar = "";
 			$listar = $_POST['listarCargo'];
 			$validador = 4;
+			$data['listar'] = $listar;
 			$data['numeral'] = $validador;
 			$data['empleados'] = $this->empleado_model->listarImpresion($listar);
 
