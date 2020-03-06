@@ -1,5 +1,14 @@
 <style type="text/css">
-
+  .acepto{
+    display: inline-block;
+  	width: 20px;
+  	height: 20px;
+  	margin: -1px 4px 0 0;
+  	vertical-align: middle;
+  	background: url(<?php echo base_url();?>/assets/image/checkEmpty.png);
+  	background-size: cover;
+  	cursor: pointer;
+  }
   .detail{
     display: flex;
     flex-direction: row;
@@ -16,6 +25,25 @@
       text-align: left;
     }
 }
+
+/* ------------------ */
+.demo input[type="checkbox"] {
+	display: none;
+}
+.demo input[type="checkbox"] + label span {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	margin: -1px 4px 0 0;
+	vertical-align: middle;
+	background: url(<?php echo base_url();?>/assets/image/checkEmpty.png);
+	background-size: cover;
+	cursor: pointer;
+}
+.demo input[type="checkbox"]:checked + label span {
+	background: url(<?php echo base_url();?>/assets/image/checkFill.png);
+	background-size: cover;
+}
 </style>
 <br><br>
 <div class="container">
@@ -23,10 +51,12 @@
     <div class="col-md-12">
       <?php if ($numeral == 3  ) {?>
         <h4 style="font-weight: bold">Filtrar por..</h4>
-        <form method="POST" action="<?php echo base_url();?>Main/listarImpresion" autocomplete="off">
+        <form id="impresion_lote_form" method="POST" action="<?php echo base_url();?>Main/listarImpresion" autocomplete="off">
+
+ 
         <div class="form-row">
           <div class="col-md-2 mb-3">
-            <select name="listarCargo" class="custom-select" required>
+            <select id="combo_cargo" name="listarCargo" class="custom-select" required>
               <option value="">Cargo</option>
               <option value="1">Residente I</option>
               <option value="2">Residente II</option>
@@ -35,9 +65,9 @@
               <option value="5">Residente EPS</option>
              </select>
           </div>
-          <div class="col-md-2">
+          <!-- <div class="col-md-2">
             <input class="btn btn-primary hvr-icon-fade"  role="button" type="submit" name="imprimir" value="imprimir">
-          </div>
+          </div> -->
         </form>
 
         <div class="col-md-12">
@@ -56,11 +86,17 @@
           <!--Fin-->
         </div>
       </div><br>
+      <?php if ($numeral == 4) {?>
+        <a href="javascript:seleccionar_todo()">Marcar todos</a> |
+        <a href="javascript:deseleccionar_todo()">Desmarcar</a>
+      <?php } ?>
+
+      <form name="checkboxForm" action="<?php echo base_url();?>XLote/boxCheques" method="post">
           <table id="example" class="table table-striped table-bordered table-hover table-responsive-sm table-responsive-md" style="width:100%">
           <thead>
               <tr>
                 <th scope="col">Cargo</th>
-                <th scope="col">#Empleado</th>
+                <th scope="col">#</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Nit</th>
                 <th scope="col" style="display: none;">Cargo</th>
@@ -70,7 +106,7 @@
               </tr>
           </thead>
           <tbody>
-            <?php  if(!empty($empleados)):?>
+            <?php if(!empty($empleados)):?>
 
           <?php  foreach($empleados as $xRenglon):?>
               <?php //controla el estado de los botones
@@ -88,17 +124,26 @@
               }//----------------------
               ?>
                 <tr id="fila<?=$xRenglon->id_Empleado?>"><!--concatena para tener filas unicas-->
-                  <td><?php echo $xRenglon->cargo; ?></td>
-                    <td><?php echo $xRenglon->id_Empleado?></td>
+                    <td><?php echo $xRenglon->cargo; ?></td>
+                    <td class="text-center">
+                      <?php if ($numeral == 4) {?>
+                        <div class="demo">
+                            <input type="checkbox" id="acepto<?=$xRenglon->id_Empleado?>" name="acepto" value="<?=$xRenglon->id_Empleado?>">
+                            <label for="acepto<?=$xRenglon->id_Empleado?>"><span></span></label>
+                        </div>
+                      <?php }else {?>
+                          <?php echo "   ".$xRenglon->id_Empleado?>
+                    <?php  }?>
+                    </td>
                     <input type="hidden" id="status<?=$xRenglon->id_Empleado?>" value="<?=$xRenglon->status?>">
                     <td><a style="color: black; text-decoration: none;" href="<?php base_url();?>Historial/index/<?php echo $xRenglon->id_Empleado;?>"><?php echo $xRenglon->nombre;?></a></td>
                     <td><?php echo $xRenglon->nit;?></td>
                     <td style="display: none;"><?php echo $xRenglon->id_cargo;?></td>
                     <?php if (($numeral == 3) || ($numeral == 8)) {?>
                     <td class="text-center">
-                      <button type="button" <?=$buttonsStatus?> onclick="datos_empleado('<?php echo $xRenglon->nombre?>',<?=$xRenglon->monto?>,'<?=$xRenglon->monto_letras?>',<?=$xRenglon->id_Empleado?>)" data-toggle="modal" data-target="#imprimir" data-whatever="@mdo" class="btn btn-primary"><i class="fas fa-print"></i></button>
-                      <button type="button" <?=$buttonsStatus?> class="btn btn-success EditBTN"><i class="fas fa-user-edit"></i></button>
-                      <button id="baja" type="button" <?=$classButton?>>
+                      <button title="Imprimr" type="button" <?=$buttonsStatus?> onclick="datos_empleado('<?php echo $xRenglon->nombre?>',<?=$xRenglon->monto?>,'<?=$xRenglon->monto_letras?>',<?=$xRenglon->id_Empleado?>)" data-toggle="modal" data-target="#imprimir" data-whatever="@mdo" class="btn btn-primary"><i class="fas fa-print"></i></button>
+                      <button title="Editar" type="button" <?=$buttonsStatus?> class="btn btn-success EditBTN"><i class="fas fa-user-edit"></i></button>
+                      <button title="Dar de baja" id="baja" type="button" <?=$classButton?>>
                         <i id="icon" <?=$classIcon?>></i>
                       </button>
                     </td>
@@ -109,6 +154,8 @@
 
           </tbody>
         </table>
+      </form>
+
       </div>
     </div>
   </div>
@@ -258,7 +305,6 @@ $(document).ready(function() {
       nombre = fila.find('td:eq(1)').text();
       nit = fila.find('td:eq(2)').text();
       cargo_id = parseInt(fila.find('td:eq(3)').text());
-
       $("#idRe").val(id);
       $("#nombreRE").val(nombre);
       $("#nitRE").val(nit);
@@ -454,40 +500,65 @@ function imprimirLote(){
 
   for(var i=0;i<nombreJS.length;i++)
   {
-    var monto = parseInt(montoJS[i]);
-    var monto_decimal = monto.toFixed(2);
-    var monto = '<div style="margin-bottom: 8px;">'+monto_decimal+'</div>'
-    var nombre = '<div style="margin-bottom: 8px;"><b>'+nombreJS[i]+'</b></div>';
-    var monto_letras = '<div style="margin-bottom: 8px;">'+monto_letrasJS[i]+'</div>';
-    var footer_2 = '<div style="font-size: 12px;padding-left: 42px;margin-top: -2px;">'+fecha_footer+'</div>'
 
-    var pw = window.open('', '', 'height=400,width=800');
-    pw.document.write('<head>' +head+ '</head><body style="margin-left: 170px;margin-top: 27px;">');
-    pw.document.write(fecha);
-    pw.document.write(monto);
-    pw.document.write(nombre);
-    pw.document.write(monto_letras);
-    pw.document.write(footer);
-    pw.document.write(footer_2);
-    pw.document.write('</body>');
-    console.log('imprimir')
-//    pw.print();
-//    pw.close();
-    // //guarda el cheque se recien se imprimio
-    var request = $.ajax({
-      method: "POST",
-      url: "<?=$base_url?>/Main/guardarcheque",
-      data: {
-        id: id_empleadoJS[i],
-        monto: monto_decimal,
-        monto_letras:monto_letrasJS[i]
-      }
-    });
-    request.done(function(resultado) {
-      console.log(resultado)
-    });
+    var fila = $("#fila"+id_empleadoJS[i]).closest("tr");//obtiene la fila que empezará a imprimir
+    var Verif_checkbox = fila.find('input:eq(0)').prop('checked')
+
+    if (Verif_checkbox) {
+      var monto = parseInt(montoJS[i]);
+      var monto_decimal = monto.toFixed(2);
+      var monto = '<div style="margin-bottom: 8px;">'+monto_decimal+'</div>'
+      var nombre = '<div style="margin-bottom: 8px;"><b>'+nombreJS[i]+'</b></div>';
+      var monto_letras = '<div style="margin-bottom: 8px;">'+monto_letrasJS[i]+'</div>';
+      var footer_2 = '<div style="font-size: 12px;padding-left: 42px;margin-top: -2px;">'+fecha_footer+'</div>'
+
+      var pw = window.open('', '', 'height=400,width=800');
+      pw.document.write('<head>' +head+ '</head><body style="margin-left: 170px;margin-top: 27px;">');
+      pw.document.write(fecha);
+      pw.document.write(monto);
+      pw.document.write(nombre);
+      pw.document.write(monto_letras);
+      pw.document.write(footer);
+      pw.document.write(footer_2);
+      pw.document.write('</body>');
+      console.log('imprimir')
+      //    pw.print();
+      //    pw.close();
+      //guarda el cheque se recien se imprimio
+      var request = $.ajax({
+        method: "POST",
+        url: "<?=$base_url?>/Main/guardarcheque",
+        data: {
+          id: id_empleadoJS[i],
+          monto: monto_decimal,
+          monto_letras:monto_letrasJS[i]
+        }
+      });
+      request.done(function(resultado) {
+        console.log(resultado)
+      });
+    }else {
+      console.log('no se imprimió')
+    }
   }
 }
+//-----------funciones para seleccionar checkbox
+  function seleccionar_todo(){
+     for (i=0;i<document.checkboxForm.elements.length;i++)
+        if(document.checkboxForm.elements[i].type == "checkbox")
+           document.checkboxForm.elements[i].checked=1
+  }
+  function deseleccionar_todo(){
+     for (i=0;i<document.checkboxForm.elements.length;i++)
+        if(document.checkboxForm.elements[i].type == "checkbox")
+           document.checkboxForm.elements[i].checked=0
+  }
+
+//-----------submit form onchange
+  $("#combo_cargo").change(function() {
+       this.form.submit();
+  });
+
 
 function nomina(nomina){
   var nomina = nomina;
