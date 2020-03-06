@@ -53,7 +53,7 @@
         <h4 style="font-weight: bold">Filtrar por..</h4>
         <form id="impresion_lote_form" method="POST" action="<?php echo base_url();?>Main/listarImpresion" autocomplete="off">
 
- 
+
         <div class="form-row">
           <div class="col-md-2 mb-3">
             <select id="combo_cargo" name="listarCargo" class="custom-select" required>
@@ -106,9 +106,10 @@
               </tr>
           </thead>
           <tbody>
-            <?php if(!empty($empleados)):?>
+            <?php  if(!empty($empleados)):?>
 
-          <?php  foreach($empleados as $xRenglon):?>
+          <?php $cont = 1; //contador para el correlativo
+              foreach($empleados as $xRenglon):?>
               <?php //controla el estado de los botones
               $classButton = "";
               $classIcon = "";
@@ -132,7 +133,8 @@
                             <label for="acepto<?=$xRenglon->id_Empleado?>"><span></span></label>
                         </div>
                       <?php }else {?>
-                          <?php echo "   ".$xRenglon->id_Empleado?>
+                          <?php echo "   ".$cont?>
+                          <input type="hidden" name="" value="<?=$xRenglon->id_Empleado?>">
                     <?php  }?>
                     </td>
                     <input type="hidden" id="status<?=$xRenglon->id_Empleado?>" value="<?=$xRenglon->status?>">
@@ -149,7 +151,7 @@
                     </td>
                   <?php };?>
                 </tr>
-              <?php endforeach;?>
+              <?php $cont++; endforeach;?>
           <?php  endif;?>
 
           </tbody>
@@ -301,7 +303,7 @@ $(document).ready(function() {
     $(document).on("click", ".EditBTN", function(){
 
       fila = $(this).closest("tr");
-      id = parseInt(fila.find('td:eq(0)').text());
+      id = parseInt(fila.find('input:eq(0)').val());
       nombre = fila.find('td:eq(1)').text();
       nit = fila.find('td:eq(2)').text();
       cargo_id = parseInt(fila.find('td:eq(3)').text());
@@ -362,8 +364,7 @@ $(document).on("click", ".btnEditar", function(){
     var fila;
     $(document).on("click", "#baja", function(){
         fila = $(this);
-        id = parseInt($(this).closest("tr").find('td:eq(0)').text());
-
+        id = parseInt($(this).closest("tr").find('input:eq(0)').val());
       Swal.fire({
         title: '¿Realizar cambio?',
         text: "Puede revertir esta acción posteriormente",

@@ -74,7 +74,7 @@ class Nomina extends CI_Controller {
 			} elseif ($nomina == 5) {
 				$residente = 'MÉDICO RESIDENTE EPS';
 			}
-			
+
 
 			$this->pdf = new renglones();
 	        $this->pdf->Add_Page('L','Letter',0);
