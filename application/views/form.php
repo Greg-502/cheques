@@ -87,8 +87,8 @@
         </div>
       </div><br>
       <?php if ($numeral == 4) {?>
-        <a href="javascript:seleccionar_todo()">Marcar todos</a> |
-        <a href="javascript:deseleccionar_todo()">Desmarcar</a>
+        <a style="text-decoration: none;" href="javascript:seleccionar_todo()">Marcar todos</a> |
+        <a style="text-decoration: none;" href="javascript:deseleccionar_todo()">Desmarcar</a>
       <?php } ?>
 
       <form name="checkboxForm" action="<?php echo base_url();?>XLote/boxCheques" method="post">
@@ -138,7 +138,7 @@
                     <?php  }?>
                     </td>
                     <input type="hidden" id="status<?=$xRenglon->id_Empleado?>" value="<?=$xRenglon->status?>">
-                    <td><a style="color: black; text-decoration: none;" href="<?php base_url();?>Historial/index/<?php echo $xRenglon->id_Empleado;?>"><?php echo $xRenglon->nombre;?></a></td>
+                    <td><?php echo $xRenglon->nombre;?></td>
                     <td><?php echo $xRenglon->nit;?></td>
                     <td style="display: none;"><?php echo $xRenglon->id_cargo;?></td>
                     <?php if (($numeral == 3) || ($numeral == 8)) {?>
@@ -388,11 +388,7 @@ $(document).on("click", ".btnEditar", function(){
         request.done(function(resultado) {
           $("#fila"+id).remove();
         });
-        Swal.fire(
-          'Hecho!',
-          'El cambio ha sido realizado.',
-          'success'
-        )
+        window.location.reload(true); 
       }
     })
     });
@@ -439,8 +435,8 @@ function datos_empleado(nombre,monto,montoEnLetras,id_empleado){
     pw.document.write(footer_2);
     pw.document.write('</body>');
     console.log('imprimir')
-  //  pw.print();
-//    pw.close();
+    pw.print();
+    pw.close();
     //guarda el cheque se recien se imprimio
   var request = $.ajax({
     method: "POST",
@@ -523,8 +519,8 @@ function imprimirLote(){
       pw.document.write(footer_2);
       pw.document.write('</body>');
       console.log('imprimir')
-      //    pw.print();
-      //    pw.close();
+      pw.print();
+      pw.close();
       //guarda el cheque se recien se imprimio
       var request = $.ajax({
         method: "POST",

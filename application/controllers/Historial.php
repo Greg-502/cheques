@@ -11,7 +11,8 @@ class Historial extends CI_Controller {
 
 	public function index($id)
 	{
-		$this->load->model("HistorialModel");
+		redirect(base_url()."XLote/code_5");
+		/*$this->load->model("HistorialModel");
 		$year = gmdate('Y');
 		$dataY = array(
 			'anio' => $year
@@ -31,7 +32,7 @@ class Historial extends CI_Controller {
 			}
 		} else {
 			redirect(base_url()."Add/error");
-		}
+		}*/
 
 	}
 }
