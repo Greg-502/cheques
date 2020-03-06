@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-02-2020 a las 20:22:29
--- Versión del servidor: 10.4.6-MariaDB
--- Versión de PHP: 7.3.9
+-- Tiempo de generación: 06-03-2020 a las 23:04:02
+-- Versión del servidor: 10.4.11-MariaDB
+-- Versión de PHP: 7.4.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,6 +25,20 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `admin`
+--
+
+CREATE TABLE `admin` (
+  `id_admin` bigint(20) NOT NULL,
+  `nombre` varchar(100) COLLATE latin1_bin NOT NULL,
+  `usuario` varchar(25) COLLATE latin1_bin NOT NULL,
+  `password` varchar(200) COLLATE latin1_bin NOT NULL,
+  `estado` bit(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `cargo`
 --
 
@@ -40,11 +54,11 @@ CREATE TABLE `cargo` (
 --
 
 INSERT INTO `cargo` (`id_cargo`, `cargo`, `monto`, `monto_letras`) VALUES
-(1, 'Residente I', '500.00', 'Quinientos cincuenta quetzales exactos'),
+(1, 'Residente I', '550.00', 'Quinientos cincuenta quetzales exactos'),
 (2, 'Residente II', '500.00', 'Quinientos quetzales exactos'),
 (3, 'Residente III', '500.00', 'Quinientos quetzales exactos'),
 (4, 'Residente IV', '500.00', 'Quinientos quetzales exactos'),
-(5, 'Residentes (Jefe)', '3500.00', 'Tres mil quinientos quetzales exactos');
+(5, 'Residentes EPS', '3500.00', 'Tres mil quinientos quetzales exactos');
 
 -- --------------------------------------------------------
 
@@ -57,7 +71,8 @@ CREATE TABLE `cheque` (
   `fecha` datetime NOT NULL DEFAULT current_timestamp(),
   `monto` decimal(10,2) NOT NULL,
   `monto_letras` varchar(100) COLLATE latin1_bin NOT NULL,
-  `id_empleado` bigint(20) NOT NULL
+  `id_empleado` bigint(20) NOT NULL,
+  `id_admin` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 -- --------------------------------------------------------
@@ -79,6 +94,12 @@ CREATE TABLE `empleado` (
 --
 
 --
+-- Indices de la tabla `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`id_admin`);
+
+--
 -- Indices de la tabla `cargo`
 --
 ALTER TABLE `cargo`
@@ -89,7 +110,8 @@ ALTER TABLE `cargo`
 --
 ALTER TABLE `cheque`
   ADD PRIMARY KEY (`id_cheque`),
-  ADD KEY `id_empleado` (`id_empleado`);
+  ADD KEY `id_empleado` (`id_empleado`),
+  ADD KEY `id_admin` (`id_admin`);
 
 --
 -- Indices de la tabla `empleado`
@@ -101,6 +123,12 @@ ALTER TABLE `empleado`
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `id_admin` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `cargo`
@@ -128,7 +156,8 @@ ALTER TABLE `empleado`
 -- Filtros para la tabla `cheque`
 --
 ALTER TABLE `cheque`
-  ADD CONSTRAINT `cheque_ibfk_1` FOREIGN KEY (`id_empleado`) REFERENCES `empleado` (`id_Empleado`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `cheque_ibfk_1` FOREIGN KEY (`id_empleado`) REFERENCES `empleado` (`id_Empleado`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `cheque_ibfk_2` FOREIGN KEY (`id_admin`) REFERENCES `admin` (`id_admin`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `empleado`
