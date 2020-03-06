@@ -84,8 +84,7 @@ class Main extends CI_Controller {
 	public function 	listarImpresion(){
 		$data['base_url'] = $this->config->item('base_url');
 
-		$listar = "";
-		if ($this->input->post('imprimir') == 'imprimir') {
+			$listar = "";
 			$listar = $_POST['listarCargo'];
 			$validador = 4;
 			$data['numeral'] = $validador;
@@ -93,8 +92,9 @@ class Main extends CI_Controller {
 
 			$this->load->view('menu');
 			$this->load->view('form',$data);
-		}else {
-			redirect("/Main");
-		}
+
+			if (!isset($_POST['listarCargo'])) {
+				redirect("/Main");
+			}
 	}
 }
