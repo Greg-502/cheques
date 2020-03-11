@@ -387,7 +387,7 @@ $(document).on("click", ".btnEditar", function(){
         });
         request.done(function(resultado) {
           //$("#fila"+id).remove();
-          window.location.reload(true); 
+          window.location.reload(true);
         });
         /*Swal.fire(
           'Hecho!',
@@ -493,7 +493,7 @@ function imprimirLote(){
   var f=new Date();
   var mes_foter = f.getMonth()  //obtiene el mes para luego restarlo
   mes_foter == 0 ? mes_foter = 11 : mes_foter= mes_foter - 1;//operacion terniaria para el mes de Diciembre
-  var fecha = f.getDate() + " de " + meses[mes_foter] +' '+ f.getFullYear();
+  var fecha = f.getDate() + " de " + meses[f.getMonth()] +' '+ f.getFullYear();
   var fecha_footer = meses[mes_foter] +' '+ f.getFullYear();//obtiene la fecha para imprimirlo en la Ref: en la parte inferior izquierda
   var head = '<div style="margin-left: 114px;margin-bottom: 17px;"><b>NO NEGOCIABLE</b></div>'
   var fecha = '<div style="float:left;margin-bottom: 7px;margin-right: 160px;">Quetzaltenango, '+ fecha +'.----</div>';
