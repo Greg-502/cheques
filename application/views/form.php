@@ -440,8 +440,8 @@ function datos_empleado(nombre,monto,montoEnLetras,id_empleado){
     pw.document.write(footer_2);
     pw.document.write('</body>');
     console.log('imprimir')
-//    pw.print();
-//    pw.close();
+    pw.print();
+    pw.close();
     //guarda el cheque se recien se imprimio
   var request = $.ajax({
     method: "POST",
@@ -524,8 +524,8 @@ function imprimirLote(){
       pw.document.write(footer_2);
       pw.document.write('</body>');
       console.log('imprimir')
-//      pw.print();
-//      pw.close();
+      pw.print();
+      pw.close();
       //guarda el cheque se recien se imprimio
       var request = $.ajax({
         method: "POST",
