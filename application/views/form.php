@@ -387,7 +387,7 @@ $(document).on("click", ".btnEditar", function(){
         });
         request.done(function(resultado) {
           //$("#fila"+id).remove();
-          window.location.reload(true);
+          window.location.reload(true); 
         });
         /*Swal.fire(
           'Hecho!',
@@ -403,7 +403,7 @@ function datos_empleado(nombre,monto,montoEnLetras,id_empleado){
   var f=new Date();
   var fecha = f.getDate() + " de " + meses[f.getMonth()] +' '+ f.getFullYear();
   var mes_foter = f.getMonth()  //obtiene el mes para luego restarlo
-  mes_foter == 0 ? mes_foter = 11 : mes_foter= mes_foter - 1;//operacion terniaria para el mes de Diciembre
+  //mes_foter == 0 ? mes_foter = 11 : mes_foter= mes_foter - 1;//operacion terniaria para el mes de Diciembre
   var fecha_footer = meses[mes_foter] +' '+ f.getFullYear();//obtiene la fecha para imprimirlo
   var monto_decimal = monto.toFixed(2);
   glob_id_empleado = id_empleado
@@ -420,7 +420,6 @@ function datos_empleado(nombre,monto,montoEnLetras,id_empleado){
     $("#monto_letras").text(montoEnLetras);
   });
 }
-
 //function imprimir------------------------------
     function imprimir(){
     var head = '<div style="margin-left: 114px;margin-bottom: 17px;"><b>NO NEGOCIABLE</b></div>'
@@ -493,8 +492,8 @@ function imprimirLote(){
   var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
   var f=new Date();
   var mes_foter = f.getMonth()  //obtiene el mes para luego restarlo
-  mes_foter == 0 ? mes_foter = 11 : mes_foter= mes_foter - 1;//operacion terniaria para el mes de Diciembre
-  var fecha = f.getDate() + " de " + meses[f.getMonth()] +' '+ f.getFullYear();
+  //mes_foter == 0 ? mes_foter = 11 : mes_foter= mes_foter - 1;//operacion terniaria para el mes de Diciembre
+  var fecha = f.getDate() + " de " + meses[mes_foter] +' '+ f.getFullYear();
   var fecha_footer = meses[mes_foter] +' '+ f.getFullYear();//obtiene la fecha para imprimirlo en la Ref: en la parte inferior izquierda
   var head = '<div style="margin-left: 114px;margin-bottom: 17px;"><b>NO NEGOCIABLE</b></div>'
   var fecha = '<div style="float:left;margin-bottom: 7px;margin-right: 160px;">Quetzaltenango, '+ fecha +'.----</div>';
