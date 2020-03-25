@@ -420,6 +420,7 @@ function datos_empleado(nombre,monto,montoEnLetras,id_empleado){
     $("#monto_letras").text(montoEnLetras);
   });
 }
+
 //function imprimir------------------------------
     function imprimir(){
     var head = '<div style="margin-left: 114px;margin-bottom: 17px;"><b>NO NEGOCIABLE</b></div>'
