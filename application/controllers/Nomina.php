@@ -37,39 +37,39 @@ class Nomina extends CI_Controller {
 				$current = 'MARZO';
 				$nominaResidente = '005';
 				$nominaEPS = '006';
-			} elseif ($mes == 3) {
+			} elseif ($mes == 4) {
 				$current = 'ABRIL';
 				$nominaResidente = '007';
 				$nominaEPS = '008';
-			} elseif ($mes == 3) {
+			} elseif ($mes == 5) {
 				$current = 'MAYO';
 				$nominaResidente = '009';
 				$nominaEPS = '010';
-			} elseif ($mes == 3) {
+			} elseif ($mes == 6) {
 				$current = 'JUNIO';
 				$nominaResidente = '011';
 				$nominaEPS = '012';
-			} elseif ($mes == 3) {
+			} elseif ($mes == 7) {
 				$current = 'JULIO';
 				$nominaResidente = '013';
 				$nominaEPS = '014';
-			} elseif ($mes == 3) {
+			} elseif ($mes == 8) {
 				$current = 'AGOSTO';
 				$nominaResidente = '015';
 				$nominaEPS = '016';
-			} elseif ($mes == 3) {
+			} elseif ($mes == 9) {
 				$current = 'SEPTIEMBRE';
 				$nominaResidente = '017';
 				$nominaEPS = '018';
-			} elseif ($mes == 3) {
+			} elseif ($mes == 10) {
 				$current = 'OCTUBRE';
 				$nominaResidente = '019';
 				$nominaEPS = '020';
-			} elseif ($mes == 3) {
+			} elseif ($mes == 11) {
 				$current = 'NOVIEMBRE';
 				$nominaResidente = '021';
 				$nominaEPS = '022';
-			} elseif ($mes == 3) {
+			} elseif ($mes == 12) {
 				$current = 'DICIEMBRE';
 				$nominaResidente = '023';
 				$nominaEPS = '024';
