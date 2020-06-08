@@ -23,7 +23,7 @@ class Nomina extends CI_Controller {
 			$contador = 1;
 
 			$mes = date('m');
-			$mes = $mes - 1;
+			$mes = $mes;
 			$anio = date('Y');
 			if ($mes == 1) {
 				$current = 'ENERO';
