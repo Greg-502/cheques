@@ -49,6 +49,14 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12">
+      <?php if ($numeral == 4  ) {?>
+        <h4 style="font-weight: bold;">Fecha de impresión</h4>
+        <form class="form-inline">
+          <input class="form-control col-2 mr-3" type="date" id="date-input" onchange="dates()">
+        </form>
+        <hr class="my-4">
+      <?php    } ?>
+
       <?php if ($numeral == 3  ) {?>
         <h4 style="font-weight: bold">Filtrar por..</h4>
         <form id="impresion_lote_form" method="POST" action="<?php echo base_url();?>Main/listarImpresion" autocomplete="off">
@@ -72,6 +80,11 @@
 
         <div class="col-md-12">
         <hr class="my-4">
+                <h4 style="font-weight: bold;">Fecha de impresión</h4>
+        <form class="form-inline">
+          <input class="form-control col-2 mr-3" type="date" id="date-input" onchange="dates()">
+        </form>
+        <br>
       <?php    } ?>
       <div class="row">
         <div class="col-9">
@@ -81,7 +94,7 @@
           <!--btn para imprimir por lote-->
           <?php if ($numeral == 4 and !empty($empleados)): ?>
               <button style="float: right;" onclick="imprimirLote()" class="btn btn-primary hvr-icon-fade pisto">Imprimir</button>
-              <button style="float: right;" onclick="nomina('<?php echo $listar?>')" class="btn btn-outline-success pisto mr-2">Nomina PDF</button>
+              <button style="float: right;" onclick="nomina('<?php echo $listar?>')" class="btn btn-outline-success pisto mr-3">Nomina PDF</button>
           <?php endif; ?>
           <!--Fin-->
         </div>
@@ -257,9 +270,10 @@
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 
 <script>
-var glob_nombre,glob_monto,glob_monto_Q, glob_fecha, glob_fecha_footer;//variables globales con datos del empleado
+var input_date, glob_nombre,glob_monto,glob_monto_Q, glob_fecha, glob_fecha_footer;//variables globales con datos del empleado
 
 $(document).ready(function() {
+
     var groupColumn = 0;
     tableDT = $('#example').DataTable({
       "language": {
@@ -397,14 +411,16 @@ $(document).on("click", ".btnEditar", function(){
       }
     })
     });
+
     //funcion obtener datos del empleado----------------------------
 function datos_empleado(nombre,monto,montoEnLetras,id_empleado){
   var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-  var f=new Date();
-  var fecha = f.getDate() + " de " + meses[f.getMonth()] +' '+ f.getFullYear();
-  var mes_foter = f.getMonth()  //obtiene el mes para luego restarlo
-  //mes_foter == 0 ? mes_foter = 11 : mes_foter= mes_foter - 1;//operacion terniaria para el mes de Diciembre
-  var fecha_footer = meses[mes_foter] +' '+ f.getFullYear();//obtiene la fecha para imprimirlo
+  var input_date=new Date($('#date-input').val());
+  var dia = input_date.getUTCDate();
+  var fecha = dia + " de " + meses[input_date.getUTCMonth()] +' '+ input_date.getUTCFullYear();
+  var mes_foter = input_date.getUTCMonth()  //obtiene el mes para luego restarlo
+  // mes_foter == 0 ? mes_foter = 11 : mes_foter= mes_foter - 1;//operacion terniaria para el mes de Diciembre
+  var fecha_footer = meses[mes_foter] +' '+ input_date.getUTCFullYear();//obtiene la fecha para imprimirlo
   var monto_decimal = monto.toFixed(2);
   glob_id_empleado = id_empleado
   glob_nombre = nombre;
@@ -490,11 +506,12 @@ function imprimirLote(){
   var id_empleadoJS=<?php echo $id_empleadoJson;?>;
 
   var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-  var f=new Date();
-  var mes_foter = f.getMonth()  //obtiene el mes para luego restarlo
+  var input_date=new Date($('#date-input').val());
+  var dia = input_date.getUTCDate();
+  var mes_foter = input_date.getUTCMonth()  //obtiene el mes para luego restarlo
   //mes_foter == 0 ? mes_foter = 11 : mes_foter= mes_foter - 1;//operacion terniaria para el mes de Diciembre
-  var fecha = f.getDate() + " de " + meses[mes_foter] +' '+ f.getFullYear();
-  var fecha_footer = meses[mes_foter] +' '+ f.getFullYear();//obtiene la fecha para imprimirlo en la Ref: en la parte inferior izquierda
+  var fecha = dia + " de " + meses[mes_foter] +' '+ input_date.getUTCFullYear();
+  var fecha_footer = meses[mes_foter] +' '+ input_date.getUTCFullYear();//obtiene la fecha para imprimirlo en la Ref: en la parte inferior izquierda
   var head = '<div style="margin-left: 114px;margin-bottom: 17px;"><b>NO NEGOCIABLE</b></div>'
   var fecha = '<div style="float:left;margin-bottom: 7px;margin-right: 160px;">Quetzaltenango, '+ fecha +'.----</div>';
   var footer = '<div style="font-size: 12px;padding-left: 52px;padding-top: 10px;">bono de </div>'
@@ -560,7 +577,6 @@ function imprimirLote(){
   $("#combo_cargo").change(function() {
        this.form.submit();
   });
-
 
 function nomina(nomina){
   var nomina = nomina;
